@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>مشروع اتمتة مديرية الخدمات والصيانة</title>
+<title>حلول ومقترحات</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -36,18 +36,49 @@
 <div class="header-meta">
 </div>
 </header>
-<h4 id="main-folder-mham-mdyryt-alkhdmat-walsyant-mham-mdyryt-alkhdmat-walsyant" tabindex="-1"><a class="internal-link" target="" data-note-icon="undefined" href="/main-folder/mham-mdyryt-alkhdmat-walsyant/">مهام مديرية الخدمات والصيانة</a></h4>
-<h4 id="mrahl-emlyt-alatmtt" tabindex="-1">مراحل عملية الاتمتة</h4>
+<ol>
+<li>
+<p>الديوان :</p>
 <ul>
-<li>المرحلة الأولى: <a class="internal-link" target="" data-note-icon="undefined" href="/main-folder/tjmye-alajraeat/">تجميع الاجراءات</a></li>
-<li>المرحلة الثانية: <a class="internal-link" target="" data-note-icon="undefined" href="/main-folder/mshakl/">مشاكل</a></li>
-<li>المرحلة الثالثة: <a class="internal-link" target="" data-note-icon="undefined" href="/main-folder/hlwl-wmqtrhat/">حلول ومقترحات</a></li>
-<li>الرحلة الرابعة: <a class="internal-link" target="" data-note-icon="undefined" href="/main-folder/aqsam-alnzam/">اقسام النظام</a></li>
-<li>المرحلة الخامسة: <a class="internal-link" target="" data-note-icon="undefined" href="/main-folder/wthyqt-mttlbat-alaemal-brd/">وثيقة متطلبات الأعمال (BRD)</a></li>
-<li>المرحلة السادسة: <a class="internal-link" target="" data-note-icon="undefined" href="/main-folder/aqsam-alnzam/">اقسام النظام</a></li>
-<li></li>
+<li>بريد مؤتمت بالكامل يسمح بوصول الرسائل من وإلى عبر الشبكة العنكبوتية</li>
+<li>ادخال بيانات ورقية مختلفة (من شكاوى المواطنين او لأن النظام هجين فلازال هناك تعامل ورقي)</li>
+<li>اتمتة التواصل بين رئيس مديرية الخدمات والصيانة وبقية اطراف المديرية</li>
 </ul>
+</li>
+<li>
+<p>مراقبة :</p>
+<ul>
+<li>نضيف gps لمركبات الورشات</li>
+<li>تسجيل انتهاء الورشة من قبل المراقب + المواد التي تم استخدامها</li>
+<li>صورة بعدية للمهمة التي تمت</li>
+<li>عمليات تحقق كل فترة للمهمات التي تمت من قبل لجنة خارجية</li>
+</ul>
+</li>
+<li>
+<p>مالية البلدية + خدمات الصرف الصحي والكهرباء الخ:</p>
+<ul>
+<li>دفع مبلغ المالية عن طريق شام كاش</li>
+<li>احضار مندوبين من الخدمات المختلفة لمديرية الخدمات والصيانة</li>
+</ul>
+</li>
+<li>
+<p>مستودع :</p>
+<ul>
+<li>اضافة كميرات للمستودعات</li>
+<li>اتمتة عمليات الادخال والاخراج</li>
+</ul>
+</li>
+<li>
+<p>عمال :</p>
+<ul>
+<li>بصمة وجه او عين، لكل عملية دخول إلى المديرية + للخروج منها في حال كانت المهمة التي اخذها ضمن زمن خدمة الموظف (يتم تحديد ذلك من قبل مدير الخدمات والصيانة)</li>
+</ul>
+</li>
+</ol>
 </main>
+<script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
+<script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
+<script defer="defer">TIMESTAMP_FORMAT="MMM dd, yyyy h:mm a",document.querySelectorAll(".human-date").forEach((function(e){date=e.getAttribute("data-date")||e.innerText,parsed_date=luxon.DateTime.fromISO(date),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromSQL(date)),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromHTML(date)),e.innerHTML=parsed_date.toFormat(TIMESTAMP_FORMAT)}))</script>
 <script>lucide.createIcons({attrs:{class:["svg-icon"]}})</script>
 </body>
 </html>

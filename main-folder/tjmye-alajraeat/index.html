@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>تجميع الاجراءات</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-sv0slik/5O0JIPdLBCR2A3XDg/1U3WuDEheZfI/DI5n8Yqc3h5kjrnr46FGBNiUAJF7rE4LHKwQ/SoSLRKAxEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdn.jsdelivr.net/npm/lucide@0.115.0/dist/umd/lucide.min.js"></script>
+<script>window.addEventListener("load",(()=>{document.querySelectorAll(".callout").forEach((e=>{const t=getComputedStyle(e).getPropertyValue("--callout-icon"),l=t&&t.trim().replace(/^lucide-/,"");if(l){const t=e.querySelector(".callout-title");if(t){const e=document.createElement("div"),c=document.createElement("i");e.appendChild(c),c.setAttribute("icon-name",l),e.setAttribute("class","callout-icon"),t.insertBefore(e,t.firstChild)}}})),lucide.createIcons(),Array.from(document.querySelectorAll(".callout.is-collapsible")).forEach((e=>{e.querySelector(".callout-title").addEventListener("click",(t=>{e.classList.contains("is-collapsed")?e.classList.remove("is-collapsed"):e.classList.add("is-collapsed")}))}))}))</script>
+<script async src="https://fastly.jsdelivr.net/npm/force-graph@1.43.0/dist/force-graph.min.js"></script>
+<script async src="https://fastly.jsdelivr.net/npm/@alpinejs/persist@3.11.1/dist/cdn.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" async></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" async>
+<script src="https://fastly.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async></script>
+<link href="/styles/digital-garden-base.css" rel="stylesheet">
+<link href="/styles/obsidian-base.css" rel="stylesheet">
+<link href="/styles/_theme.d92311c2.css" rel="stylesheet">
+<link href="/styles/custom-style.css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<style></style>
+</head>
+<body class="theme-dark markdown-preview-view markdown-rendered markdown-preview-section">
+<nav class="navbar">
+<div class="navbar-inner">
+<a href="/" style="text-decoration:none">
+<h1 style="margin:15px!important">Digital Garden</h1>
+</a>
+</div>
+</nav>
+<main class="content cm-s-obsidian">
+<header>
+<div class="header-meta">
+</div>
+</header>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#</td>
+<td>نطاق الإجراء</td>
+<td>مجموعة الإجراءات</td>
+<td>اسم الاجراء</td>
+<td>نوع الاجراء</td>
+<td>الوصف</td>
+<td>التفاصيل</td>
+<td>المديرية المسؤولة عن الاجراء</td>
+<td>الدائرة المسؤولة عن الاجراء</td>
+<td>الشعبة المسؤولة عن الاجراء</td>
+<td>مالك الاجراء ( الاسم)</td>
+<td>هل الاجراء فعال</td>
+<td>هل هو اجراء رئيسي ام داعم</td>
+<td>هل الاجراء مؤتمت</td>
+<td>كم متوسط عدد المستخدمين الداخليين للاجراء ؟</td>
+<td>المخطط التدفقي</td>
+</tr>
+<tr>
+<td>1</td>
+<td>معالجة الشكوى</td>
+<td>معالجة الشكوى</td>
+<td>استلام شكوى</td>
+<td>كلاهما</td>
+<td>عملية استلام شكاوي من المواطنين والبلدية</td>
+<td>استلام شكاوي يكون اما من خلال تواصل المواطنين مباشرة او من خلال البلدية ثم تحول لمدير المدينة الذي بدوره يحولها الى مدير الخدمات</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>4</td>
+<td>[[]]</td>
+</tr>
+<tr>
+<td>2</td>
+<td>معالجة الشكوى</td>
+<td>معالجة الشكوى</td>
+<td>إعادة تحويل شكوى إلى البلدية</td>
+<td>G_to_G</td>
+<td>إعادة الشكاوى من البلدية خارج نطاق عمل المديرية</td>
+<td>في حال كانت الشكوى التي تم تقديمها من البلدية ليست من ضمن نطاق عمل مديرية الخدمات والصيانة يتم اعادة ارسالها الى البلدية من خلال البريد</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>معالجة الشكوى</td>
+<td>معالجة الشكوى</td>
+<td>إسناد الشكاوي لورشات العمل</td>
+<td>G to G</td>
+<td>إسناد الشكوى لورشات العمل لبدأ العمل عليها</td>
+<td>يقوم مدير الخدمات بتحويل الشكوى للمراقب المختص ثم تسند لأحد الورشات</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>مراقبة وتحقق</td>
+<td>مراقبة وتحقق</td>
+<td>تحقق المراقب من الورشات</td>
+<td>G to G</td>
+<td>تحقق المراقب من عمليات الصيانة</td>
+<td>يقوم مراقب تابع لمديرية الخدمات والصيانة بالتحقق من الورشات التي أنهت عملها لتحقق من إتمام الورشات لعملهم بنجاح</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>اجازة حفر</td>
+<td>اجازة حفر</td>
+<td>معالجة منح اجازة حفر</td>
+<td>G to G</td>
+<td>حساب تكلفة الضمان</td>
+<td>يتم تقديم طلب حفر عبر البلدية فيتم ارسال هذا الطلب لمديرية الخدمات والصيانة عبر البريد ويصل لديوان ثم مدير الخدمات ثم المراقب للكشف عن عملية الحفر ووضع تكلفة لها والتي تكون تكلفة تأمين إلى تنتهي عملية الحفر ( في حال كانت رخصة الحفر لعقار جديد مرخص فلا حاجة لمبلغ الضمان) وتدفع قيمتها في مالية البلدية</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>اجازة حفر</td>
+<td>اجازة حفر</td>
+<td>اعداد رخصة حفر</td>
+<td>G to G</td>
+<td>اعداد رخصة تخول بداية عملية الحفر</td>
+<td>التاكد من ان جميع الموافقات تم منحها فيتم التوقيع من قبل مديرة الخدمات وترسل الى البلدية لتوقيع رئيس المجلس</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>اجازة حفر</td>
+<td>اجازة حفر</td>
+<td>مراقبة عملية الحفر</td>
+<td>G to G</td>
+<td>استرداد امانات الاضرار</td>
+<td>عند انتهاءعملية الحفر بالكامل يمكن لمقدم الطلب استعادة مال الضمان من مالية البلدية)</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>تزفييت طرق</td>
+<td>تزفييت طرق</td>
+<td>إشراف على عملية تزفييت</td>
+<td>G to G</td>
+<td>إشراف على عملية تزفييت طرق بطلب من البلدية</td>
+<td>تقوم البلدية بإرسال طلب إشراف على عملية تزفييت لديوان مديرية الصيانة ثم تحول لرئيس المجلس ثم تحول لمراقب ليشرف على عملية التزفييت والتأكد من تطبيق شروط العقد</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>تزفييت طرق</td>
+<td>تزفييت طرق</td>
+<td>تقرير انتهاء العمل</td>
+<td>G to G</td>
+<td>اعداد تقرير بانتهاء عملية التزفييت</td>
+<td>بعد انتهاء عملية التزفييت يقوم المراقب برفع تقرير بانتهاء العمل من ثم تستلم لجنة من البلدية بقية الاجراءات</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>عمليات المستودع</td>
+<td>عمليات المستودع</td>
+<td>طلب تسليم مواد</td>
+<td>G to G</td>
+<td>طلب تسليم مواد من المستودع</td>
+<td>طلب تسليم مواد من امين المستودع من اجل مهمة معينة او عملية صيانة ما</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>شراء مواد</td>
+<td>لجنة شراء</td>
+<td>طلب شراء مواد</td>
+<td>G to G</td>
+<td></td>
+<td>يقوم امين المستودع في حال عدم تواجد المواد اللازمة لطلب تسليم مواد او حاجة المديرية لمادة معينة بكمية معينة بطلب شراء مواد من لجنة الشراء</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>5</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>لجنة شراء</td>
+<td>لجنة شراء</td>
+<td>طلب موافقة من البلدية</td>
+<td>G to G</td>
+<td>موافقة البلدية على عملية الشراء</td>
+<td>تقوم لجنة الشراء بطلب موافقة على عملية الشراء من البلدية</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>لجنة شراء</td>
+<td>لجنة شراء</td>
+<td>اختيار متعهد</td>
+<td>G to G</td>
+<td>اختيار متعهد يقوم بشراء الطلبات</td>
+<td>بعد موافقة البلدية على عملية الشراء واعتمادها مبلغ للشراء (تخصيص مبلغ للشراء) تقوم لجنة الشراء باختيار متعهد يقوم بشراء الأغراض</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>عملية مستودع</td>
+<td>عملية مستودع</td>
+<td>وثيقة استلام</td>
+<td>G to G</td>
+<td>استلام امين المستودع للمواد</td>
+<td>عند وصول مواد الى مديرية الخدمات والصيانة اما عن طريق البلدية او لجنة الشراء او امانات يقوم امين المستودع باستلام المواد وكتابة ورقة بالمواد التي تم استلامها, يمكن أن تأتي مواد من عدة مصادر هم 1- تبرع من احد الاطراف 2- مستردات والتي تكون مواد تم طلبها من قبل ورشة ولم تستهلك بالكامل 3- عمليات الجرد التي تظهر فيها زيادة او نقصان في المواد 4- امانات من مديريات ومؤسسات اخرى</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>عملية مستودع</td>
+<td>عملية مستودع</td>
+<td>عملية إدخال</td>
+<td>G to G</td>
+<td>إدخال مواد إالى المستودع</td>
+<td>عملية إدخال مواد إلى المستودع التي تم استلامها من قبل امين المستودع</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>عملية مستودع</td>
+<td>عملية مستودع</td>
+<td>تسجيل عهدة</td>
+<td>G to G</td>
+<td>عهدة على الموظف لاستخدام المواد القابلة للاستخدام مرة اخرى</td>
+<td>يقوم امين المستودع بكتابة عهدة على الموظف حال استخدامه لمواد قابلة للاستخدام مرة اخرى وتوقيعه عليها الى أن يعيد هذه المواد الى امين المستودع</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>اداري</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>عملية مستودع</td>
+<td>عملية مستودع</td>
+<td>براءة ذمة</td>
+<td>G to G</td>
+<td>براءة ذمة لاسقاط العهدة عن الموظف</td>
+<td>حين يقوم الموظف بإعادة المواد التي طلبها والتي تكون قابلة لاعادة الاستخدام يقوم امين المستودع بعملية براءة ذمةلاثبات ان الموظف قام بتسليم جميع الاصول التي كانت مسسجله عليه</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>اداري</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>مخالفة حفر</td>
+<td>مخالفة حفر</td>
+<td>تنظيم ضبط الحفر</td>
+<td>G to G</td>
+<td>تنظيم ضبط مخالفة</td>
+<td>اذا تم اكتشاف عملية حفر غير مرخصة يتم تغريم الفاعل بدفع قيمة عملية الحفر</td>
+<td>مديرية الخدمات والصيانة</td>
+<td>لايوجد</td>
+<td>لايوجد</td>
+<td></td>
+<td>نعم</td>
+<td>رئيسي</td>
+<td>ورقي</td>
+<td>1 to 2</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</main>
+<script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
+<script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
+<script defer="defer">TIMESTAMP_FORMAT="MMM dd, yyyy h:mm a",document.querySelectorAll(".human-date").forEach((function(e){date=e.getAttribute("data-date")||e.innerText,parsed_date=luxon.DateTime.fromISO(date),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromSQL(date)),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromHTML(date)),e.innerHTML=parsed_date.toFormat(TIMESTAMP_FORMAT)}))</script>
+<script>lucide.createIcons({attrs:{class:["svg-icon"]}})</script>
+</body>
+</html>
