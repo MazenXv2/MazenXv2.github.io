@@ -196,4 +196,6 @@ Ref: Book.receiver_department_id > Department.department_id
 // علاقات بوليمورفيك (Polymorphic) يتم معالجتها في طبقة التطبيق:
 // - Attachment يمكن أن يرتبط بـ Complaint, Inquiry, أو Book
 // - Transaction يمكن أن يرتبط بـ Complaint أو Inquiry
+// @pos Department -79 461
+// @view 348 -216 0.604
 ```
