@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>مخطط ERD</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-sv0slik/5O0JIPdLBCR2A3XDg/1U3WuDEheZfI/DI5n8Yqc3h5kjrnr46FGBNiUAJF7rE4LHKwQ/SoSLRKAxEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdn.jsdelivr.net/npm/lucide@0.115.0/dist/umd/lucide.min.js"></script>
+<script>window.addEventListener("load",(()=>{document.querySelectorAll(".callout").forEach((e=>{const t=getComputedStyle(e).getPropertyValue("--callout-icon"),l=t&&t.trim().replace(/^lucide-/,"");if(l){const t=e.querySelector(".callout-title");if(t){const e=document.createElement("div"),c=document.createElement("i");e.appendChild(c),c.setAttribute("icon-name",l),e.setAttribute("class","callout-icon"),t.insertBefore(e,t.firstChild)}}})),lucide.createIcons(),Array.from(document.querySelectorAll(".callout.is-collapsible")).forEach((e=>{e.querySelector(".callout-title").addEventListener("click",(t=>{e.classList.contains("is-collapsed")?e.classList.remove("is-collapsed"):e.classList.add("is-collapsed")}))}))}))</script>
+<script async src="https://fastly.jsdelivr.net/npm/force-graph@1.43.0/dist/force-graph.min.js"></script>
+<script async src="https://fastly.jsdelivr.net/npm/@alpinejs/persist@3.11.1/dist/cdn.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" async></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" async>
+<script src="https://fastly.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async></script>
+<link href="/styles/digital-garden-base.css" rel="stylesheet">
+<link href="/styles/obsidian-base.css" rel="stylesheet">
+<link href="/styles/_theme.d92311c2.css" rel="stylesheet">
+<link href="/styles/custom-style.css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<style></style>
+</head>
+<body class="theme-dark markdown-preview-view markdown-rendered markdown-preview-section">
+<nav class="navbar">
+<div class="navbar-inner">
+<a href="/" style="text-decoration:none">
+<h1 style="margin:15px!important">Digital Garden</h1>
+</a>
+</div>
+</nav>
+<main class="content cm-s-obsidian">
+<header>
+<div class="header-meta">
+</div>
+</header>
+<pre><code class="language-dbml">// ============================================
+// 1. مجموعة الديوان - الكيانات الأساسية
+// ============================================
+
+Table User {
+  user_id int [pk, increment]
+  username varchar
+  password_hash varchar
+  email varchar
+  phone varchar
+  role_id int
+  department_id int
+  is_active boolean
+  created_at datetime
+  last_login datetime
+}
+
+Table Role {
+  role_id int [pk, increment]
+  role_name varchar
+  description varchar
+  created_at datetime
+}
+
+Table Department {
+  department_id int [pk, increment]
+  department_name varchar
+  parent_department_id int
+  manager_id int
+  description varchar
+}
+
+Table Book {
+  book_id int [pk, increment]
+  book_number varchar
+  book_date date
+  direction varchar
+  type varchar
+  sender_department_id int
+  receiver_department_id int
+  subject varchar
+  content text
+  file_url varchar
+  registered_by int
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table Complaint {
+  complaint_id int [pk, increment]
+  external_citizen_id varchar
+  citizen_name varchar
+  citizen_phone varchar
+  citizen_email varchar
+  citizen_id_number varchar
+  complaint_type varchar
+  subject varchar
+  description text
+  file_url varchar
+  status varchar
+  priority varchar
+  source varchar
+  submitted_at datetime
+  resolved_at datetime
+  assigned_to int
+  created_by int
+}
+
+Table Inquiry {
+  inquiry_id int [pk, increment]
+  external_citizen_id varchar
+  citizen_name varchar
+  citizen_phone varchar
+  citizen_email varchar
+  inquiry_type varchar
+  subject varchar
+  description text
+  status varchar
+  source varchar
+  submitted_at datetime
+  responded_at datetime
+  assigned_to int
+  created_by int
+}
+
+Table Attachment {
+  attachment_id int [pk, increment]
+  entity_type varchar
+  entity_id int
+  file_name varchar
+  file_url varchar
+  file_type varchar
+  uploaded_by int
+  uploaded_at datetime
+}
+
+Table Notification {
+  notification_id int [pk, increment]
+  user_id int
+  notification_type varchar
+  message varchar
+  is_read boolean
+  sent_via varchar
+  sent_at datetime
+  read_at datetime
+}
+
+Table Transaction {
+  transaction_id int [pk, increment]
+  transaction_number varchar
+  transaction_type varchar
+  entity_type varchar
+  entity_id int
+  created_date date
+  assigned_to int
+  status varchar
+  created_by int
+}
+
+// ============================================
+// 2. الكيانات الخارجية (خارج نظام المديرية)
+// ============================================
+
+Table External_System {
+  system_name varchar [pk]
+  api_endpoint varchar
+  auth_method varchar
+}
+
+// ============================================
+// 3. العلاقات بين الكيانات (DBML Syntax)
+// ============================================
+
+// User relationships
+Ref: User.role_id &gt; Role.role_id
+Ref: User.department_id &gt; Department.department_id
+Ref: Notification.user_id &gt; User.user_id
+Ref: Book.registered_by &gt; User.user_id
+Ref: Attachment.uploaded_by &gt; User.user_id
+Ref: Transaction.created_by &gt; User.user_id
+Ref: Transaction.assigned_to &gt; User.user_id
+Ref: Complaint.created_by &gt; User.user_id
+Ref: Complaint.assigned_to &gt; User.user_id
+Ref: Inquiry.created_by &gt; User.user_id
+Ref: Inquiry.assigned_to &gt; User.user_id
+
+// Department relationships
+Ref: Department.parent_department_id &gt; Department.department_id
+Ref: Department.manager_id &gt; User.user_id
+Ref: Book.sender_department_id &gt; Department.department_id
+Ref: Book.receiver_department_id &gt; Department.department_id
+
+// Book relationships
+// Note: Book is already linked to User and Department above
+
+// Complaint relationships
+// Note: Complaint is already linked to User above
+
+// Inquiry relationships
+// Note: Inquiry is already linked to User above
+
+// Attachment relationships - polymorphic relationships (handled at application level)
+// entity_type and entity_id link to Complaint, Inquiry, or Book
+
+// Transaction relationships
+// Note: Transaction is already linked to User above
+// Transaction.entity_type and entity_id link to Complaint or Inquiry
+
+// External System relationships - logical relationships (not physical FKs)
+// External_System sends/receives Complaint and Inquiry via API
+
+// ============================================
+// 4. ملاحظات إضافية للعلاقات
+// ============================================
+
+// علاقات متعددة الأطراف:
+// - Department لها علاقة one-to-many مع User
+// - User لها علاقة one-to-many مع Notification
+// - User لها علاقة one-to-many مع Book (registered_by)
+// - User لها علاقة one-to-many مع Attachment (uploaded_by)
+// - User لها علاقة one-to-many مع Transaction (created_by)
+// - User لها علاقة one-to-many مع Complaint (created_by, assigned_to)
+// - User لها علاقة one-to-many مع Inquiry (created_by, assigned_to)
+
+// علاقات متعددة (many-to-many) تحتاج إلى جداول وسيطة:
+// - يمكن إضافة جدول وسيط لربط Book مع Department بشكل أكثر مرونة
+// - يمكن إضافة جدول وسيط لربط User مع Department كعلاقة تاريخية
+
+// علاقات بوليمورفيك (Polymorphic) يتم معالجتها في طبقة التطبيق:
+// - Attachment يمكن أن يرتبط بـ Complaint, Inquiry, أو Book
+// - Transaction يمكن أن يرتبط بـ Complaint أو Inquiry
+</code></pre>
+</main>
+<script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
+<script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
+<script defer="defer">TIMESTAMP_FORMAT="MMM dd, yyyy h:mm a",document.querySelectorAll(".human-date").forEach((function(e){date=e.getAttribute("data-date")||e.innerText,parsed_date=luxon.DateTime.fromISO(date),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromSQL(date)),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromHTML(date)),e.innerHTML=parsed_date.toFormat(TIMESTAMP_FORMAT)}))</script>
+<script>lucide.createIcons({attrs:{class:["svg-icon"]}})</script>
+</body>
+</html>
