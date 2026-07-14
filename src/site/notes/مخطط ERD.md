@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/mkhtt-erd/","dg-note-properties":{}}
+{"dg-publish":true,"permalink":"/mkhtt-erd/","title":"Database Schema","dg-note-properties":{"title":"Database Schema"}}
 ---
 
 
