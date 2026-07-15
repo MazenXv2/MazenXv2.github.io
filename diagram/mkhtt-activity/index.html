@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>اقسام النظام</title>
+<title>مخطط Activity</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -36,14 +36,63 @@
 <div class="header-meta">
 </div>
 </header>
-<ol>
-<li><a class="internal-link" target="" data-note-icon="undefined" href="/qsm-alnafdht/alwhdat-alryysyt-qsm-alnafdht/">الوحدات الرئيسية قسم النافذة</a></li>
-<li><a class="internal-link is-unresolved" href="/404" target="">معاملات (متضمنة لسجلات هذه المعاملات)</a></li>
-<li><a class="internal-link is-unresolved" href="/404" target="">مهام(توكيل المهام إلى الموظفين) </a></li>
-<li><a class="internal-link is-unresolved" href="/404" target="">إدارية (مثل عمليات لجان الشراء + اجازات وغيرها)</a></li>
-<li><a class="internal-link is-unresolved" href="/404" target="">رخص الحفر</a></li>
-<li><a class="internal-link is-unresolved" href="/404" target="">مستودع</a></li>
-</ol>
+<pre class="mermaid">flowchart TD
+    %% ============================================
+    %% Activity Diagram - Complaint Workflow
+     ============================================
+    %% Activity Diagram - Excavation Permit Workflow
+    %% ============================================
+
+    Start([ابدأ]) --> SubmitRequest[تقديم الطلب في البلدية]
+    
+    SubmitRequest --> ForwardToCoordination[إحالة إلى مكتب التنسيق]
+    
+    ForwardToCoordination --> CoordinationReview[دراسة الطلب في مكتب التنسيق]
+    
+    CoordinationReview --> CheckServices{موافقات الجهات الخدمية}
+    
+    CheckServices -->|غير مكتملة| RequestApprovals[طلب موافقات الجهات]
+    RequestApprovals --> CheckServices
+    
+    CheckServices -->|مكتملة| SendToCommittee[إرسال إلى اللجنة]
+    
+    SendToCommittee --> CommitteeInspection[كشف اللجنة]
+    
+    CommitteeInspection --> CalculateFees[حساب الرسوم]
+    
+    CalculateFees --> SendToFinance[إرسال إلى المالية]
+    
+    SendToFinance --> PayFees[دفع الرسوم في المالية]
+    
+    PayFees --> VerifyPayment{تأكيد الدفع}
+    
+    VerifyPayment -->|غير مدفوع| PayFees
+    
+    VerifyPayment -->|مدفوع| SendToDirector[إحالة إلى مدير التنفيذ والخدمات]
+    
+    SendToDirector --> DirectorApproval1{موافقة المدير}
+    
+    DirectorApproval1 -->|غير موافق| Reject[رفض الطلب]
+    Reject --> NotifyCitizen[إشعار المواطن بالرفض]
+    NotifyCitizen --> End1([End])
+    
+    DirectorApproval1 -->|موافق| DirectorSign[توقيع مدير التنفيذ والخدمات]
+    
+    DirectorSign --> HeadApproval{موافقة رئيس المدير}
+    
+    HeadApproval -->|غير موافق| Reject2[رفض الطلب]
+    Reject2 --> NotifyCitizen2[إشعار المواطن بالرفض]
+    NotifyCitizen2 --> End2([End])
+    
+    HeadApproval -->|موافق| HeadSign[توقيع رئيس المدير]
+    
+    HeadSign --> IssuePermit[إصدار إجازة الحفر]
+    
+    IssuePermit --> PermitPrint[طباعة الإجازة]
+    
+    PermitPrint --> DeliverToCitizen[تسليم الإجازة للمواطن]
+    
+    DeliverToCitizen --> End3([End])</pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
 <script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
