@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>قسم المعاملات – الوحدات الرئيسية</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-sv0slik/5O0JIPdLBCR2A3XDg/1U3WuDEheZfI/DI5n8Yqc3h5kjrnr46FGBNiUAJF7rE4LHKwQ/SoSLRKAxEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdn.jsdelivr.net/npm/lucide@0.115.0/dist/umd/lucide.min.js"></script>
+<script>window.addEventListener("load",(()=>{document.querySelectorAll(".callout").forEach((e=>{const t=getComputedStyle(e).getPropertyValue("--callout-icon"),l=t&&t.trim().replace(/^lucide-/,"");if(l){const t=e.querySelector(".callout-title");if(t){const e=document.createElement("div"),c=document.createElement("i");e.appendChild(c),c.setAttribute("icon-name",l),e.setAttribute("class","callout-icon"),t.insertBefore(e,t.firstChild)}}})),lucide.createIcons(),Array.from(document.querySelectorAll(".callout.is-collapsible")).forEach((e=>{e.querySelector(".callout-title").addEventListener("click",(t=>{e.classList.contains("is-collapsed")?e.classList.remove("is-collapsed"):e.classList.add("is-collapsed")}))}))}))</script>
+<script async src="https://fastly.jsdelivr.net/npm/force-graph@1.43.0/dist/force-graph.min.js"></script>
+<script async src="https://fastly.jsdelivr.net/npm/@alpinejs/persist@3.11.1/dist/cdn.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" async></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" async>
+<script src="https://fastly.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async></script>
+<link href="/styles/digital-garden-base.css" rel="stylesheet">
+<link href="/styles/obsidian-base.css" rel="stylesheet">
+<link href="/styles/_theme.d92311c2.css" rel="stylesheet">
+<link href="/styles/custom-style.css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<style></style>
+</head>
+<body class="theme-dark markdown-preview-view markdown-rendered markdown-preview-section">
+<nav class="navbar">
+<div class="navbar-inner">
+<a href="/" style="text-decoration:none">
+<h1 style="margin:15px!important">Digital Garden</h1>
+</a>
+</div>
+</nav>
+<main class="content cm-s-obsidian">
+<header>
+<div class="header-meta">
+</div>
+</header>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>الوحدة الرئيسية</th>
+<th>الوصف والوظيفة الأساسية</th>
+<th>أصحاب المصلحة الرئيسيون</th>
+<th>المتطلبات الوظيفية</th>
+<th>الملاحظات</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>تقديم المعاملات</strong></td>
+<td>استقبال جميع المعاملات إلى النظام من <strong>مصادر متعددة</strong>: إما عبر الإدخال اليدوي من المستخدمين الداخليين (موظف النافذة)، أو آلياً عبر التطبيق العام للمواطنين أو من رئيس البلدية. يتم تسجيل المعاملة برقم وتاريخ تلقائي وتحديد مصدرها.</td>
+<td>- مدير المديرية.<br>(الموافقة).<br><br>- موظف النافذة (إدخال يدوي). <br><br>- المواطنون (تقديم عبر التطبيق العام). <br><br>- رئيس البلدية<br>(تقديم معاملة).<br><br>- رؤساء الأقسام (الموافقة).</td>
+<td>1. تقديم معاملة جديدة إلى النظام من قبل المستخدم الداخلي. <br>2. تسجيل المعاملة برقم وتاريخ تلقائي. <br>3. تصنيف المعاملة حسب النوع (شكوى، طلب صيانة، كتاب، إيميل، رخصة حفر، استفسار). <br>4. تحديد الأولوية (عاجل / متوسط / منخفض). <br>5. إرفاق المستندات والصور المطلوبة. <br>6. ربط المعاملة بالمواطن (إن وجد).<br>7. ربط المعاملة بالجهة الخارجية (إن وجدت). <br>8. تحديد حالة المعاملة الابتدائية (جديد).</td>
+<td>- فقط المستخدمون الداخليون يمكنهم تقديم المعاملات. <br>- المواطنون يقدمون عبر التطبيق العام (خارج النظام). <br>- تتكامل مع سجل المعاملات لتوثيق كل ما يدخل.</td>
+</tr>
+<tr>
+<td><strong>مراجعة واعتماد المعاملات</strong></td>
+<td>عملية مراجعة المعاملات المقدمة من قبل رؤساء الأقسام أو المديرين، للتأكد من اكتمال البيانات وصحة المعلومات، مع إمكانية الرفض مع إبداء السبب، أو طلب تعديل، أو الاعتماد المباشر، بالإضافة إلى إمكانية تحويل المعاملة إلى جهات خارجية (مديريات أخرى) للحصول على اعتمادها. يتم تحديد <strong>ترتيب الاعتماد</strong> لكل نوع معاملة، حيث يجب أن تمر المعاملة بجهات محددة بترتيب محدد (مثل: المدير ← (مديرية الكهرباء,مديرية المياه,مديرية الصحة) ← البلدية)، ولا يمكن تخطي جهة أو تجاوز الترتيب المحدد.</td>
+<td>- رؤساء الأقسام (مراجعة معاملات قسمهم). <br><br>- مدير المديرية (حسب أولوية المعاملة). <br><br>- المديريات الأخرى (اعتماد المعاملات التي تخصها).</td>
+<td>1. استلام إشعار بوجود معاملة جديدة بانتظار المراجعة. <br>2. عرض تفاصيل المعاملة (البيانات، المرفقات، الجهة المقدمة). <br>3. الموافقة على المعاملة (تنتقل إلى الخطوة التالية حسب ترتيب الاعتماد). <br>4. رفض المعاملة مع إبداء السبب (تُعاد لمقدمها مع إشعار). <br>5. طلب (تعديل / استكمال بيانات) المعاملة (تُعاد لمقدمها مع توضيح المطلوب). <br>6. تحويل المعاملة إلى الجهة التالية في ترتيب الاعتماد (مديرية أخرى، بلدية). <br>7. تحديد ترتيب الاعتماد لكل نوع معاملة من خلال رقم. <br>8. منع تخطي جهة في ترتيب الاعتماد. <br>9. متابعة حالة المعاملة مع الجهات الخارجية. <br>10. استلام رد الاعتماد من الجهة الخارجية (موافقة، رفض، طلب تعديل). <br>11. توثيق سجل الاعتماد (من وافق، متى،ملاحظات، ترتيب الاعتماد). <br>12. إشعار مقدم المعاملة عند تغير حالتها. <br>13. البحث عن المعاملات (حسب التاريخ، النوع، الحالة، الجهة). <br>14. تصدير تقارير المعاملات إلى Excel و PDF.</td>
+<td>- تضمن صحة ودقة المعاملات قبل المضي قدماً. <br>- تمنع الفوضى في النظام. <br>- توفر سجلاً للقرارات. <br>- تتكامل مع أنظمة المديريات الأخرى. <br>- تدعم الشفافية في الإجراءات. <br>- <strong>تحدد ترتيب الاعتماد لكل نوع معاملة</strong>. <br>- <strong>تمنع تجاوز الترتيب المحدد</strong>.</td>
+</tr>
+<tr>
+<td>**سجل المعاملات **</td>
+<td>عرض جميع المعاملات التي تم تقديمها إلى النظام مع إمكانية البحث والتصفية، وتتبع حالة كل معاملة، وإظهارها حسب صلاحيات المستخدمين الداخليين، مع إمكانية تصدير التقارير.</td>
+<td>- مدير المديرية (عرض الكل). <br><br>- رؤساء الأقسام (عرض معاملات قسمهم). <br><br>- موظف النافذة (عرض المعاملات التي تعامل معها). <br><br>- المراقبون (عرض المعاملات المحالة إليهم).<br><br>- المواطن<br>(عرض معاملاته).</td>
+<td>1. عرض جميع المعاملات المقدمة إلى النظام. <br>2. البحث والتصفية حسب (النوع، التاريخ، الحالة، القسم، المواطن، الجهة المقدمة). <br>3. عرض تفاصيل المعاملة (البيانات، المرفقات، مسار التتبع). <br>4. تتبع حالة المعاملة (جديد/قيد المعالجة/منجز/مغلق/ تحتاج إلى دفع). <br>5. إظهار المعاملات حسب صلاحيات المستخدم (مدير: الكل، رئيس قسم: قسمه، مراقب: معاملاته). <br>6. إشعارات عند تغيير حالة المعاملة. <br>7. تصدير التقارير بصيغ متعددة (PDF, Excel).</td>
+<td>- تعتبر واجهة التتبع الرئيسية. <br>- تتحكم بها صلاحيات المستخدمين. <br>- توفر الشفافية للموظفين.</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+<script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
+<script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
+<script defer="defer">TIMESTAMP_FORMAT="MMM dd, yyyy h:mm a",document.querySelectorAll(".human-date").forEach((function(e){date=e.getAttribute("data-date")||e.innerText,parsed_date=luxon.DateTime.fromISO(date),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromSQL(date)),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromHTML(date)),e.innerHTML=parsed_date.toFormat(TIMESTAMP_FORMAT)}))</script>
+<script>lucide.createIcons({attrs:{class:["svg-icon"]}})</script>
+</body>
+</html>

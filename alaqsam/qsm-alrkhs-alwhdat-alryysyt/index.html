@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>قسم الرخص – الوحدات الرئيسية</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-sv0slik/5O0JIPdLBCR2A3XDg/1U3WuDEheZfI/DI5n8Yqc3h5kjrnr46FGBNiUAJF7rE4LHKwQ/SoSLRKAxEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdn.jsdelivr.net/npm/lucide@0.115.0/dist/umd/lucide.min.js"></script>
+<script>window.addEventListener("load",(()=>{document.querySelectorAll(".callout").forEach((e=>{const t=getComputedStyle(e).getPropertyValue("--callout-icon"),l=t&&t.trim().replace(/^lucide-/,"");if(l){const t=e.querySelector(".callout-title");if(t){const e=document.createElement("div"),c=document.createElement("i");e.appendChild(c),c.setAttribute("icon-name",l),e.setAttribute("class","callout-icon"),t.insertBefore(e,t.firstChild)}}})),lucide.createIcons(),Array.from(document.querySelectorAll(".callout.is-collapsible")).forEach((e=>{e.querySelector(".callout-title").addEventListener("click",(t=>{e.classList.contains("is-collapsed")?e.classList.remove("is-collapsed"):e.classList.add("is-collapsed")}))}))}))</script>
+<script async src="https://fastly.jsdelivr.net/npm/force-graph@1.43.0/dist/force-graph.min.js"></script>
+<script async src="https://fastly.jsdelivr.net/npm/@alpinejs/persist@3.11.1/dist/cdn.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" async></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" async>
+<script src="https://fastly.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async></script>
+<link href="/styles/digital-garden-base.css" rel="stylesheet">
+<link href="/styles/obsidian-base.css" rel="stylesheet">
+<link href="/styles/_theme.d92311c2.css" rel="stylesheet">
+<link href="/styles/custom-style.css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<style></style>
+</head>
+<body class="theme-dark markdown-preview-view markdown-rendered markdown-preview-section">
+<nav class="navbar">
+<div class="navbar-inner">
+<a href="/" style="text-decoration:none">
+<h1 style="margin:15px!important">Digital Garden</h1>
+</a>
+</div>
+</nav>
+<main class="content cm-s-obsidian">
+<header>
+<div class="header-meta">
+</div>
+</header>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>الوحدة الرئيسية</th>
+<th>الوصف والوظيفة الأساسية</th>
+<th>أصحاب المصلحة الرئيسيون</th>
+<th>المتطلبات الوظيفية</th>
+<th>الملاحظات</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>إصدار الرخصة وطباعتها</strong></td>
+<td>إصدار الرخصة رقمياً بعد اكتمال الموافقات والدفع، مع توقيع إلكتروني، وطباعتها (ورقياً) أو تسليمها رقمياً عبر التطبيق العام، وتوثيق تاريخ الإصدار وصلاحية الرخصة.</td>
+<td>- موظف الإصدار (إصدار وطباعة). <br>- مدير المديرية (التوقيع الإلكتروني). <br>- المواطنون (استلام الرخصة). <br>- الجهات الرقابية (التحقق من صحة الرخصة).</td>
+<td><strong>الإصدار:</strong> <br>1. إنشاء الرخصة رقمياً بعد اكتمال الموافقات والدفع. <br>2. توقيع الرخصة بتوقيع إلكتروني معتمد من المدير. <br>3. تحديد تاريخ الإصدار وتاريخ الانتهاء. <br>4. توليد رمز (QR Code) للتحقق من صحة الرخصة. <br> <br><strong>الطباعة والتسليم:</strong> <br>5. طباعة الرخصة بشكل ورقي (في حال طلب المواطن ذلك). <br>6. إرسال الرخصة رقمياً إلى المواطن عبر التطبيق العام (PDF + QR). <br>7. تسليم الرخصة عبر النافذة (طباعة وتوقيع يدوي إن لزم). <br> <br><strong>التوثيق:</strong> <br>8. أرشفة الرخصة في سجل الرخص. <br>9. تحديث حالة الطلب إلى (مصدرة / فعالة). <br>10. إشعار المواطن بإمكانية استلام الرخصة.</td>
+<td>- تعتبر المرحلة النهائية لمنح الرخصة. <br>- تدعم الإصدار الرقمي والورقي. <br>- توفر QR للتحقق من الصلاحية. <br>- تتكامل مع نظام أرشفة الرخص.</td>
+</tr>
+<tr>
+<td><strong>إدارة المخالفات والضبط</strong></td>
+<td>تسجيل مخالفات الرخص (حفر بدون ترخيص، تجاوز المدة، مخالفة الشروط)، وتحرير محاضر ضبط، وتحديد الغرامات، وإشعار المخالف، ومتابعة سداد الغرامات أو تصحيح الوضع.</td>
+<td>- المراقبون الميدانيون (تحرير المخالفات). <br>- لجنة المخالفات (دراسة المخالفات). <br>- مدير المديرية (اعتماد الغرامات). <br>- المواطنون (المخالفون).</td>
+<td><strong>تسجيل المخالفة:</strong> <br>1. تسجيل مخالفة (نوع المخالفة، التاريخ، الموقع، الوصف، الأدلة). <br>2. رفع صور ومستندات داعمة للمخالفة. <br>3. تحديد الإجراء المتخذ (إنذار، غرامة، إزالة، إيقاع). <br> <br><strong>الدراسة والقرار:</strong> <br>4. تحديد قيمة الغرامة والمدة المحددة للتصحيح. <br>5. إشعار المخالف بالمخالفة والغرامة والمهلة. <br> <br><strong>المتابعة:</strong> <br>6. متابعة سداد الغرامة (ربط مع وحدة الدفع). <br>7. متابعة تصحيح المخالفة (ربط مع وحدة المهام). <br>8. إغلاق المخالفة بعد التصحيح والسداد. <br>9. تقارير عن المخالفات والغرامات المحصلة.</td>
+<td>- تعتبر أداة رقابية مهمة. <br>- تضمن الامتثال للقوانين. <br>- تتكامل مع وحدة المهام (لتصحيح المخالفات). <br>- تتكامل مع وحدة الدفع (لسداد الغرامات).</td>
+</tr>
+<tr>
+<td><strong>سجل الرخص والتتبع</strong></td>
+<td>عرض جميع الرخص المسجلة في النظام مع إمكانية البحث والتصفية، وتتبع حالة كل رخصة (قيد المراجعة، معتمدة، مصدرة، منتهية، ملغاة)، وإظهارها حسب صلاحيات المستخدمين، مع إمكانية تصدير التقارير.</td>
+<td>- جميع المستخدمين حسب صلاحياتهم. <br>- مدير المديرية (عرض الكل). <br>- رؤساء الأقسام (عرض رخص قسمهم). <br>- المواطنون (عرض رخصهم فقط). <br>- الجهات الرقابية (التحقق من صحة الرخص).</td>
+<td><strong>العرض والبحث:</strong> <br>1. عرض جميع الرخص في النظام. <br>2. البحث والتصفية حسب (نوع الرخصة، التاريخ، الحالة، المواطن، الموقع). <br>3. عرض تفاصيل الرخصة (البيانات، المرفقات، مسار التتبع، الموافقات، المدفوعات). <br> <br><strong>التتبع:</strong> <br>4. عرض حالة الرخصة (جديد/قيد المراجعة/معتمدة/مصدرة/منتهية/ملغاة). <br>5. عرض تاريخ كل مرحلة (تقديم، مراجعة، دفع، إصدار، انتهاء). <br>6. إشعارات عند تغيير حالة الرخصة. <br> <br><strong>التقارير:</strong> <br>7. تقارير عن الرخص (عدد الرخص الصادرة، الإيرادات، التوزيع حسب النوع والمنطقة). <br>8. تصدير التقارير بصيغ متعددة (PDF, Excel). <br>9. تنبيهات للرخص المنتهية أو المنتهية الصلاحية.</td>
+<td>- تعتبر واجهة التتبع الرئيسية للرخص. <br>- توفر الشفافية للمواطنين. <br>- تتحكم بها الصلاحيات. <br>- تدعم اتخاذ القرار الإداري.</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+<script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
+<script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
+<script defer="defer">TIMESTAMP_FORMAT="MMM dd, yyyy h:mm a",document.querySelectorAll(".human-date").forEach((function(e){date=e.getAttribute("data-date")||e.innerText,parsed_date=luxon.DateTime.fromISO(date),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromSQL(date)),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromHTML(date)),e.innerHTML=parsed_date.toFormat(TIMESTAMP_FORMAT)}))</script>
+<script>lucide.createIcons({attrs:{class:["svg-icon"]}})</script>
+</body>
+</html>

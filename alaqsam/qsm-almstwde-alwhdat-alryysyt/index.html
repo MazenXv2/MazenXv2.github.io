@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>قسم المستودع – الوحدات الرئيسية</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-sv0slik/5O0JIPdLBCR2A3XDg/1U3WuDEheZfI/DI5n8Yqc3h5kjrnr46FGBNiUAJF7rE4LHKwQ/SoSLRKAxEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdn.jsdelivr.net/npm/lucide@0.115.0/dist/umd/lucide.min.js"></script>
+<script>window.addEventListener("load",(()=>{document.querySelectorAll(".callout").forEach((e=>{const t=getComputedStyle(e).getPropertyValue("--callout-icon"),l=t&&t.trim().replace(/^lucide-/,"");if(l){const t=e.querySelector(".callout-title");if(t){const e=document.createElement("div"),c=document.createElement("i");e.appendChild(c),c.setAttribute("icon-name",l),e.setAttribute("class","callout-icon"),t.insertBefore(e,t.firstChild)}}})),lucide.createIcons(),Array.from(document.querySelectorAll(".callout.is-collapsible")).forEach((e=>{e.querySelector(".callout-title").addEventListener("click",(t=>{e.classList.contains("is-collapsed")?e.classList.remove("is-collapsed"):e.classList.add("is-collapsed")}))}))}))</script>
+<script async src="https://fastly.jsdelivr.net/npm/force-graph@1.43.0/dist/force-graph.min.js"></script>
+<script async src="https://fastly.jsdelivr.net/npm/@alpinejs/persist@3.11.1/dist/cdn.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" async></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" async>
+<script src="https://fastly.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async></script>
+<link href="/styles/digital-garden-base.css" rel="stylesheet">
+<link href="/styles/obsidian-base.css" rel="stylesheet">
+<link href="/styles/_theme.d92311c2.css" rel="stylesheet">
+<link href="/styles/custom-style.css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<style></style>
+</head>
+<body class="theme-dark markdown-preview-view markdown-rendered markdown-preview-section">
+<nav class="navbar">
+<div class="navbar-inner">
+<a href="/" style="text-decoration:none">
+<h1 style="margin:15px!important">Digital Garden</h1>
+</a>
+</div>
+</nav>
+<main class="content cm-s-obsidian">
+<header>
+<div class="header-meta">
+</div>
+</header>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>الوحدة الرئيسية</th>
+<th>الوصف والوظيفة الأساسية</th>
+<th>أصحاب المصلحة الرئيسيون</th>
+<th>المتطلبات الوظيفية</th>
+<th>الملاحظات</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>طلبات الشراء (من المستودع)</strong></td>
+<td>تمكين أمين المستودع من تقديم طلبات شراء المواد عندما تصل كمية مادة معينة إلى الحد الأدنى المسموح به في المخزون، أو عندما تكون المادة غير متوفرة تماماً. يتم رفع الطلب إلى المدير للاعتماد، ثم تحويله إلى لجنة الشراء لاتخاذ الإجراءات اللازمة.</td>
+<td>- أمين المستودع: تقديم طلب الشراء.<br><br>- مدير المديرية: اعتماد طلب الشراء. <br>- لجنة الشراء: تنفيذ عملية الشراء. <br><br>- مدير البلدية<br>(اعتماد).<br>- قسم المالية البلدية: متابعة الميزانية المخصصة للشراء.</td>
+<td>1. نظام آلي للتحقق من مستويات المخزون (الحد الأدنى). <br>2. إشعار أمين المستودع عند وصول مادة إلى الحد الأدنى أو نفادها. <br>3. تقديم طلب شراء (تحديد المادة، الكمية المطلوبة، المورد المقترح، التكلفة التقديرية، الأولوية). <br>4. مراجعة الطلب من قبل مدير المديرية. <br>5. اعتماد الطلب من قبل المدير (أو رفضه مع إبداء السبب). <br>6. تحويل الطلب المعتمد إلى لجنة الشراء. <br>7. تحويل الطلب إلى البلدية لاعتماد طلب الشراء.<br>8. متابعة حالة الطلب (قيد المراجعة، معتمد، قيد التنفيذ، تم الشراء، مرفوض). <br>9. إشعار أمين المستودع عند تغير حالة الطلب. <br>10. إشعار أمين المستودع عند وصول المواد المشتراة (لتحديث المخزون). <br>11. تحديث المخزون تلقائياً عند استلام المواد. <br>12. توثيق سجل طلبات الشراء (التاريخ، المادة، الكمية، التكلفة، الحالة). <br>13. البحث عن طلبات الشراء (حسب التاريخ، المادة، الحالة). <br>14. تصدير تقارير طلبات الشراء إلى Excel و PDF.</td>
+<td>- تتكامل مع نظام إدارة المخزون. <br>- تتكامل مع نظام الميزانية. <br>- توفر سجلاً كاملاً لطلبات الشراء.</td>
+</tr>
+<tr>
+<td><strong>إدارة الأمانات (الودائع)</strong></td>
+<td>إدارة المواد المؤتمنة من مديريات أخرى أو جهات خارجية، مع توثيق جهة الإيداع، التاريخ، الكمية، المدة المتوقعة، وحالة الأمانة (مؤقتة / منتهية / مسترجعة)، مع إمكانية إرجاعها عند الطلب.</td>
+<td>- أمين المستودع (تسجيل الأمانات). <br>- المديريات الأخرى (جهات الإيداع). <br>- مدير المديرية (متابعة الأمانات). <br>- رؤساء الأقسام (طلب استخدام الأمانات).</td>
+<td><strong>تسجيل الأمانة:</strong> <br>1. تسجيل أمانة جديدة (جهة الإيداع، تاريخ الإيداع، المواد، الكميات، المدة المتوقعة). <br>2. رفع مستندات الإيداع الرسمية. <br>3. تحديد موقع تخزين الأمانة داخل المستودع. <br> <br><strong>المتابعة:</strong> <br>4. عرض الأمانات النشطة والمنتهية. <br>5. تنبيهات عند اقتراب موعد انتهاء الأمانة. <br>6. تسجيل استرجاع الأمانة (بإذن من جهة الإيداع). <br>7. تحديث حالة الأمانة (مؤقتة/مسترجعة/منتهية). <br> <br><strong>التقارير:</strong> <br>8. تقارير عن الأمانات (حسب الجهة، حسب المادة، حسب الحالة). <br>9. تقارير عن المواد المؤتمنة والمستهلكة.</td>
+<td>- تفصل الأمانات عن المخزون العادي. <br>- تضمن عدم اختلاط مواد المديرية بمواد الجهات الأخرى. <br>- توفر سجلاً واضحاً للإيداع والاسترجاع.</td>
+</tr>
+<tr>
+<td><strong>الجرد والتدقيق الدوري</strong></td>
+<td>إجراء عمليات جرد دورية (شهرية، ربع سنوية، سنوية) للمخزون، ومطابقة الكميات الفعلية مع الكميات المسجلة في النظام، وتسجيل الفروقات (زيادة/نقص) مع توثيق أسبابها، واعتمادها من قبل لجنة الجرد.</td>
+<td>- لجنة الجرد (إجراء الجرد). <br>- أمين المستودع (تسهيل الجرد). <br>- مدير المديرية (اعتماد نتائج الجرد).</td>
+<td><strong>إعداد الجرد:</strong> <br>1. إنشاء دورة جرد جديدة (تحديد النطاق: كل المواد، فئة معينة، تاريخ محدد). <br>2. إيقاف الحركة مؤقتاً أثناء الجرد (أو الجرد المستمر). <br>3. طباعة قوائم الجرد (كشوف المواد والكميات المتوقعة). <br> <br><strong>التنفيذ:</strong> <br>4. إدخال الكميات الفعلية التي تم عدها ميدانياً. <br>5. مقارنة الكميات الفعلية مع الكميات المسجلة تلقائياً. <br>6. تسجيل الفروقات (زيادة/نقص) مع توثيق الأسباب (تلف، سرقة، خطأ في التسجيل). <br>7. رفع تقرير الجرد النهائي. <br> <br><strong>الاعتماد:</strong> <br>8. مراجعة التقرير من قبل لجنة الجرد. <br>9. اعتماد نتائج الجرد من قبل مدير المديرية. <br>10. تصحيح المخزون في النظام بناءً على النتائج المعتمدة. <br> <br><strong>التقارير:</strong> <br>11. تقارير عن نتائج الجرد (الفروقات، الأسباب، الإجراءات المتخذة).</td>
+<td>- تضمن دقة المخزون. <br>- تكتشف الفروقات مبكراً. <br>- تدعم الشفافية والمساءلة. <br>- تتكامل مع نظام التدقيق الداخلي.</td>
+</tr>
+<tr>
+<td><strong>التقارير ولوحات التحكم</strong></td>
+<td>توفير لوحات تحكم (Dashboards) لعرض مؤشرات الأداء الرئيسية للمستودع، مثل: إجمالي المخزون، المواد المنخفضة، حركة الإدخال والإخراج، استهلاك المواد حسب القسم، تحليل التكاليف، وتوقعات الاحتياجات المستقبلية.</td>
+<td>- مدير المديرية (متابعة المخزون العام). <br><br>- رؤساء الأقسام (متابعة استهلاك قسمهم).<br><br>- مجلس المدينة (متابعة التكاليف).<br><br>- لجنة الجرد<br>(مساعدة في عملية الجرد).</td>
+<td><strong>لوحة التحكم:</strong> <br>1. عرض إجمالي عدد المواد وقيمتها. <br>2. عرض المواد التي وصلت للحد الأدنى. <br>3. عرض حركة الإدخال والإخراج (شهرياً). <br>4. عرض استهلاك المواد حسب القسم أو المشروع. <br>5. تحليل تكاليف المواد المستهلكة شهرياً. <br> <br><strong>التقارير التفصيلية:</strong> <br>6. تقارير عن حركة المواد (وارد/صادر/رصيد). <br>7. تقارير عن استهلاك المواد (حسب الفئة، حسب القسم، حسب المشروع). <br>8. تقارير عن الأمانات والودائع. <br>9. تقارير عن نتائج الجرد. <br>10. تنبيهات عند اقتراب الحد الأدنى أو انتهاء صلاحية الأمانات. <br> <br><strong>التصدير:</strong> <br>11. تصدير التقارير بصيغ متعددة (PDF, Excel) لتقديمها للإدارة أو البلدية.</td>
+<td>- تدعم اتخاذ القرار الاستراتيجي. <br>- توفر رؤية شاملة للمخزون. <br>- تساعد في تخطيط المشتريات. <br>- توفر شفافية مالية.</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+<script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
+<script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
+<script defer="defer">TIMESTAMP_FORMAT="MMM dd, yyyy h:mm a",document.querySelectorAll(".human-date").forEach((function(e){date=e.getAttribute("data-date")||e.innerText,parsed_date=luxon.DateTime.fromISO(date),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromSQL(date)),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromHTML(date)),e.innerHTML=parsed_date.toFormat(TIMESTAMP_FORMAT)}))</script>
+<script>lucide.createIcons({attrs:{class:["svg-icon"]}})</script>
+</body>
+</html>
