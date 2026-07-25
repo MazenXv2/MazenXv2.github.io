@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>قسم النافذة</title>
+<title>مخطط erd-mermaid المعاملات</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -37,9 +37,129 @@
 <div class="header-meta">
 </div>
 </header>
-<h2 id="1-alaqsam-alnafdht-qsm-alnafdht-alwhdat-alryysyt-qsm-alnafdht-alwhdat-alryysyt" tabindex="-1">1. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alnafdht/qsm-alnafdht-alwhdat-alryysyt/">قسم النافذة - الوحدات الرئيسية</a></h2>
-<h2 id="2-alaqsam-alnafdht-mkhtt-erd-dbml-alnafdht-mkhtt-erd-dbml-alnafdht" tabindex="-1">2. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alnafdht/mkhtt-erd-dbml-alnafdht/">مخطط erd-dbml النافذة</a></h2>
-<h2 id="3-alaqsam-alnafdht-mkhtt-erd-mermaid-alnafdht-mkhtt-erd-mermaid-alnafdht" tabindex="-1">3. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alnafdht/mkhtt-erd-mermaid-alnafdht/">مخطط erd-mermaid النافذة</a></h2>
+<pre class="mermaid">erDiagram
+    %% ============================================
+    %% CORE LOOKUP TABLES
+    %% ============================================
+    transaction_type {
+        int transaction_type_id PK
+        varchar name
+        varchar display_name
+        text description
+        boolean is_active
+        int directorate_id
+    }
+
+    channel {
+        int channel_id PK
+        varchar name
+        varchar display_name
+        text description
+        boolean is_active
+    }
+
+    status {
+        int status_id PK
+        varchar name
+        varchar display_name
+        text description
+        varchar color_code
+    }
+
+    %% ============================================
+    %% ENTITY TABLES (Black Box)
+    %% ============================================
+    citizen {
+        int citizen_id PK
+        varchar full_name
+    }
+
+    directorate {
+        int directorate_id PK
+        varchar name
+    }
+
+    %% ============================================
+    %% TRANSACTION TABLES
+    %% ============================================
+    citizen_transaction {
+        int citizen_transaction_id PK
+        int transaction_type_id
+        int citizen_id
+        varchar citizen_name
+        varchar citizen_phone
+        varchar citizen_email
+        varchar citizen_id_number
+        text description
+        varchar location
+        decimal latitude
+        decimal longitude
+        int source_directorate_id
+        int channel_id
+        int assigned_to_department_id
+        int assigned_to_user_id
+    }
+
+    directorate_transaction {
+        int directorate_transaction_id PK
+        int transaction_type_id
+        int source_directorate_id
+        varchar reference_number
+        text description
+        varchar location
+        decimal latitude
+        decimal longitude
+        int parent_transaction_id
+        int channel_id
+        int assigned_to_department_id
+        int assigned_to_user_id
+    }
+
+    %% ============================================
+    %% STATUS TRACKING
+    %% ============================================
+    entity_status {
+        int entity_status_id PK
+        varchar entity_type
+        int entity_id
+        int status_id
+        int previous_status_id
+        text comment
+    }
+
+    %% ============================================
+    %% RELATIONSHIPS
+    %% ============================================
+    citizen ||--o{ citizen_transaction : "يقدم"
+    directorate ||--o{ directorate_transaction : "يرسل"
+
+    citizen_transaction }o--|| transaction_type : "has type"
+    citizen_transaction }o--|| channel : "submitted via"
+    citizen_transaction }o--|| department : "assigned to dept"
+    citizen_transaction }o--|| user : "assigned to user"
+
+    directorate_transaction }o--|| transaction_type : "has type"
+    directorate_transaction }o--|| channel : "received via"
+    directorate_transaction }o--|| department : "assigned to dept"
+    directorate_transaction }o--|| user : "assigned to user"
+
+    entity_status }o--|| status : "has status"
+    entity_status }o--|| status : "had previous status"
+    entity_status }o--|| citizen_transaction : "tracks"
+    entity_status }o--|| directorate_transaction : "tracks"
+
+    %% ============================================
+    %% REFERENCED TABLES (Black Box)
+    %% ============================================
+    user {
+        int user_id PK
+        varchar username
+    }
+
+    department {
+        int department_id PK
+        varchar name
+    }</pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
 <script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
