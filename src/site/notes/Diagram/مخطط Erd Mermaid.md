@@ -123,6 +123,19 @@ erDiagram
     }
 
     %% ============================================
+    %% ATTENDANCE
+    %% ============================================
+    attendance_event {
+        int event_id PK
+        int user_id
+        timestamp event_time
+        varchar event_type
+        int task_id
+        boolean go_home_directly
+        text notes
+    }
+
+    %% ============================================
     %% TRANSACTIONS
     %% ============================================
     citizen_transaction {
@@ -296,6 +309,7 @@ erDiagram
     %% ============================================
     user }o--|| role : "has role"
     user }o--|| department : "belongs to"
+    attendance_event }o--|| user : "belongs to"
     role_permission }o--|| role : "links to"
     role_permission }o--|| permission : "links to"
     user_permission }o--|| user : "assigned to"
