@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>قسم الإداري</title>
+<title>مخطط erd-dbml المستودع</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -37,9 +37,100 @@
 <div class="header-meta">
 </div>
 </header>
-<h2 id="1-alaqsam-alidary-qsm-alidary-alwhdat-alryysyt-qsm-alidary-alwhdat-alryysyt" tabindex="-1">1. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alidary/qsm-alidary-alwhdat-alryysyt/">قسم الإداري - الوحدات الرئيسية</a></h2>
-<h2 id="2-alaqsam-alidary-mkhtt-erd-dbml-alidary-mkhtt-erd-dbml-alidary" tabindex="-1">2. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alidary/mkhtt-erd-dbml-alidary/">مخطط erd-dbml الإداري</a></h2>
-<h2 id="3-alaqsam-alidary-mkhtt-erd-mermaid-alidary-mkhtt-erd-mermaid-alidary" tabindex="-1">3. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alidary/mkhtt-erd-mermaid-alidary/">مخطط erd-mermaid الإداري</a></h2>
+<pre><code class="language-dbml">// ============================================
+// قسم المستودع (Warehouse Section)
+// ============================================
+
+// ============================================
+// CORE LOOKUP
+// ============================================
+
+Table status {
+  status_id int [pk, increment]
+  name varchar(50)
+  display_name varchar(100)
+  description text
+  color_code varchar(7)
+}
+
+// ============================================
+// PURCHASE REQUESTS
+// ============================================
+
+Table purchase_request {
+  purchase_request_id int [pk, increment]
+  material_id int [note: 'Black Box (FK to material)']
+  requested_quantity decimal(10,2)
+  current_stock decimal(10,2)
+  suggested_supplier varchar(255)
+  estimated_cost decimal(10,2)
+  requested_by_user_id int [ref: &gt; user.user_id]
+  director_approved_at timestamp
+  completed_at timestamp
+  budget_allocation_id int [note: 'Black Box (FK to budget_allocation)']
+  quantity_purchased decimal(10,2)
+}
+
+// ============================================
+// INVENTORY AUDIT
+// ============================================
+
+Table inventory_audit_cycle {
+  audit_cycle_id int [pk, increment]
+  cycle_name varchar(100)
+  start_date date
+  end_date date
+  approved_by_user_id int [ref: &gt; user.user_id]
+  notes text
+}
+
+Table inventory_audit_item {
+  audit_item_id int [pk, increment]
+  audit_cycle_id int [ref: &gt; inventory_audit_cycle.audit_cycle_id]
+  material_id int [note: 'Black Box (FK to material)']
+  system_quantity decimal(10,2)
+  physical_quantity decimal(10,2)
+  notes text
+}
+
+// ============================================
+// STATUS TRACKING (Global)
+// ============================================
+
+Table entity_status {
+  entity_status_id int [pk, increment]
+  entity_type varchar(50)
+  entity_id int
+  status_id int [ref: &gt; status.status_id]
+  previous_status_id int [ref: &gt; status.status_id]
+  comment text
+}
+
+// ============================================
+// REFERENCED TABLES (Black Box - For Context)
+// ============================================
+
+Table user {
+  user_id int [pk, increment]
+  username varchar(50)
+}
+
+// ============================================
+// RELATIONSHIPS
+// ============================================
+
+Ref: purchase_request.requested_by_user_id &gt; user.user_id
+
+Ref: inventory_audit_item.audit_cycle_id &gt; inventory_audit_cycle.audit_cycle_id
+Ref: inventory_audit_cycle.approved_by_user_id &gt; user.user_id
+
+// Entity Status (Polymorphic)
+Ref: entity_status.status_id &gt; status.status_id
+Ref: entity_status.previous_status_id &gt; status.status_id
+// @pos purchase_request 672 19
+// @view 238 112 1.057
+// @size 1567 781
+</code></pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
 <script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>

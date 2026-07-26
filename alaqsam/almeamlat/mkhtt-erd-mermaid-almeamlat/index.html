@@ -72,11 +72,16 @@
     citizen {
         int citizen_id PK
         varchar full_name
+        varchar phone
+        varchar email
+        varchar id_number
     }
 
     directorate {
         int directorate_id PK
         varchar name
+        varchar phone
+        varchar email
     }
 
     %% ============================================
@@ -116,7 +121,29 @@
     }
 
     %% ============================================
-    %% STATUS TRACKING
+    %% APPROVAL SYSTEM
+    %% ============================================
+    approval_workflow {
+        int workflow_step_id PK
+        varchar entity_type
+        int entity_type_id
+        int step_order
+        varchar step_name
+        int approving_directorate_id
+        int approving_department_id
+    }
+
+    approval_history {
+        int approval_history_id PK
+        varchar entity_type
+        int entity_id
+        int workflow_step_id
+        int approver_user_id
+        text comment
+    }
+
+    %% ============================================
+    %% STATUS TRACKING (Global)
     %% ============================================
     entity_status {
         int entity_status_id PK
@@ -125,6 +152,19 @@
         int status_id
         int previous_status_id
         text comment
+    }
+
+    %% ============================================
+    %% REFERENCED TABLES (Black Box - For Context)
+    %% ============================================
+    user {
+        int user_id PK
+        varchar username
+    }
+
+    department {
+        int department_id PK
+        varchar name
     }
 
     %% ============================================
@@ -143,23 +183,13 @@
     directorate_transaction }o--|| department : "assigned to dept"
     directorate_transaction }o--|| user : "assigned to user"
 
+    approval_history }o--|| approval_workflow : "follows step"
+    approval_history }o--|| user : "approved by"
+
     entity_status }o--|| status : "has status"
     entity_status }o--|| status : "had previous status"
-    entity_status }o--|| citizen_transaction : "tracks"
-    entity_status }o--|| directorate_transaction : "tracks"
-
-    %% ============================================
-    %% REFERENCED TABLES (Black Box)
-    %% ============================================
-    user {
-        int user_id PK
-        varchar username
-    }
-
-    department {
-        int department_id PK
-        varchar name
-    }</pre>
+    entity_status ||--o{ citizen_transaction : "tracks"
+    entity_status ||--o{ directorate_transaction : "tracks"</pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
 <script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>

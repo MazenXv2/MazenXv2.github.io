@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>قسم الإداري</title>
+<title>مخطط erd-mermaid المستودع</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -37,9 +37,103 @@
 <div class="header-meta">
 </div>
 </header>
-<h2 id="1-alaqsam-alidary-qsm-alidary-alwhdat-alryysyt-qsm-alidary-alwhdat-alryysyt" tabindex="-1">1. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alidary/qsm-alidary-alwhdat-alryysyt/">قسم الإداري - الوحدات الرئيسية</a></h2>
-<h2 id="2-alaqsam-alidary-mkhtt-erd-dbml-alidary-mkhtt-erd-dbml-alidary" tabindex="-1">2. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alidary/mkhtt-erd-dbml-alidary/">مخطط erd-dbml الإداري</a></h2>
-<h2 id="3-alaqsam-alidary-mkhtt-erd-mermaid-alidary-mkhtt-erd-mermaid-alidary" tabindex="-1">3. <a class="internal-link" target="" data-note-icon="" href="/alaqsam/alidary/mkhtt-erd-mermaid-alidary/">مخطط erd-mermaid الإداري</a></h2>
+<pre class="mermaid">erDiagram
+    %% ============================================
+    %% WAREHOUSE SECTION
+    %% ============================================
+
+    %% ============================================
+    %% CORE LOOKUP
+    %% ============================================
+    status {
+        int status_id PK
+        varchar name
+        varchar display_name
+        text description
+        varchar color_code
+    }
+
+    %% ============================================
+    %% PURCHASE REQUESTS
+    %% ============================================
+    purchase_request {
+        int purchase_request_id PK
+        int material_id
+        decimal requested_quantity
+        decimal current_stock
+        varchar suggested_supplier
+        decimal estimated_cost
+        int requested_by_user_id
+        datetime director_approved_at
+        datetime completed_at
+        int budget_allocation_id
+        decimal quantity_purchased
+    }
+
+    %% ============================================
+    %% INVENTORY AUDIT
+    %% ============================================
+    inventory_audit_cycle {
+        int audit_cycle_id PK
+        varchar cycle_name
+        date start_date
+        date end_date
+        int approved_by_user_id
+        text notes
+    }
+
+    inventory_audit_item {
+        int audit_item_id PK
+        int audit_cycle_id
+        int material_id
+        decimal system_quantity
+        decimal physical_quantity
+        text notes
+    }
+
+    %% ============================================
+    %% STATUS TRACKING (Global)
+    %% ============================================
+    entity_status {
+        int entity_status_id PK
+        varchar entity_type
+        int entity_id
+        int status_id
+        int previous_status_id
+        text comment
+    }
+
+    %% ============================================
+    %% REFERENCED TABLES (Black Box - For Context)
+    %% ============================================
+    user {
+        int user_id PK
+        varchar username
+    }
+
+    %% ============================================
+    %% MATERIAL (Black Box)
+    %% ============================================
+    %% material {
+    %%     int material_id PK
+    %%     varchar name
+    %% }
+
+    %% ============================================
+    %% RELATIONSHIPS
+    %% ============================================
+    purchase_request }o--|| user : "requested by"
+    purchase_request }o--|| material : "requests (Black Box)"
+
+    inventory_audit_item }o--|| inventory_audit_cycle : "belongs to cycle"
+    inventory_audit_item }o--|| material : "counts (Black Box)"
+    inventory_audit_cycle }o--|| user : "approved by"
+
+    entity_status }o--|| status : "has status"
+    entity_status }o--|| status : "had previous status"
+    entity_status ||--o{ purchase_request : "tracks"
+    entity_status ||--o{ inventory_audit_cycle : "tracks"
+    entity_status ||--o{ inventory_audit_item : "tracks"</pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
 <script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>

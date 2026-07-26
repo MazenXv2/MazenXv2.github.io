@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>Database Schema</title>
+<title>مخطط erd-dbml الإداري</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -38,8 +38,13 @@
 </div>
 </header>
 <pre><code class="language-dbml">// ============================================
+// القسم الإداري (Admin Section)
+// ============================================
+
+// ============================================
 // CORE LOOKUP TABLES
 // ============================================
+
 Table status {
   status_id int [pk, increment]
   name varchar(50)
@@ -48,41 +53,16 @@ Table status {
   color_code varchar(7)
 }
 
-Table channel {
-  channel_id int [pk, increment]
+Table request_type {
+  request_type_id int [pk, increment]
   name varchar(50)
   display_name varchar(100)
   description text
   is_active boolean
 }
 
-Table transaction_type {
-  transaction_type_id int [pk, increment]
-  name varchar(50)
-  display_name varchar(100)
-  description text
-  is_active boolean
-  directorate_id int [note: 'Black Box (FK to external directorate table)']
-}
-
-Table permit_type {
-  permit_type_id int [pk, increment]
-  name varchar(50)
-  display_name varchar(100)
-  description text
-  is_active boolean
-}
-
-Table fee_type {
-  fee_type_id int [pk, increment]
-  name varchar(50)
-  display_name varchar(100)
-  description text
-  is_active boolean
-}
-
-Table payment_method {
-  payment_method_id int [pk, increment]
+Table performance_report_type {
+  report_type_id int [pk, increment]
   name varchar(50)
   display_name varchar(100)
   description text
@@ -90,8 +70,9 @@ Table payment_method {
 }
 
 // ============================================
-// USERS, STRUCTURE &amp; SECURITY
+// USERS &amp; STRUCTURE
 // ============================================
+
 Table user {
   user_id int [pk, increment]
   username varchar(50)
@@ -117,7 +98,7 @@ Table department {
   parent_id int [ref: &gt; department.department_id]
   manager_user_id int [ref: &gt; user.user_id]
   description text
-  directorate_id int [note: 'Black Box']
+  directorate_id int [note: 'Black Box (FK to external directorate)']
 }
 
 Table resource {
@@ -158,6 +139,7 @@ Table department_permission {
 // ============================================
 // ATTENDANCE
 // ============================================
+
 Table attendance_event {
   event_id int [pk, increment]
   user_id int [ref: &gt; user.user_id]
@@ -169,165 +151,73 @@ Table attendance_event {
 }
 
 // ============================================
-// TRANSACTIONS
+// GENERAL REQUESTS
 // ============================================
-Table citizen_transaction {
-  citizen_transaction_id int [pk, increment]
-  transaction_type_id int [ref: &gt; transaction_type.transaction_type_id]
-  citizen_id int [note: 'Black Box (FK to citizen)']
-  citizen_name varchar(255)
-  citizen_phone varchar(20)
-  citizen_email varchar(100)
-  citizen_id_number varchar(50)
-  description text
-  location varchar(255)
-  latitude decimal(10,8)
-  longitude decimal(11,8)
-  source_directorate_id int [note: 'Black Box (FK to directorate)']
-  channel_id int [ref: &gt; channel.channel_id]
-  assigned_to_department_id int [ref: &gt; department.department_id]
-  assigned_to_user_id int [ref: &gt; user.user_id]
-}
 
-Table directorate_transaction {
-  directorate_transaction_id int [pk, increment]
-  transaction_type_id int [ref: &gt; transaction_type.transaction_type_id]
-  source_directorate_id int [note: 'Black Box (FK to directorate)']
-  reference_number varchar(100)
-  description text
-  location varchar(255)
-  latitude decimal(10,8)
-  longitude decimal(11,8)
-  parent_transaction_id int [ref: &gt; directorate_transaction.directorate_transaction_id]
-  channel_id int [ref: &gt; channel.channel_id]
-  assigned_to_department_id int [ref: &gt; department.department_id]
-  assigned_to_user_id int [ref: &gt; user.user_id]
-}
-
-// ============================================
-// APPROVAL SYSTEM
-// ============================================
-Table approval_workflow {
-  workflow_step_id int [pk, increment]
-  entity_type varchar(50)
-  entity_type_id int
-  step_order int
-  step_name varchar(100)
-  approving_directorate_id int [note: 'Black Box (FK to directorate)']
-  approving_department_id int [ref: &gt; department.department_id]
-}
-
-Table approval_history {
-  approval_history_id int [pk, increment]
-  entity_type varchar(50)
-  entity_id int
-  workflow_step_id int [ref: &gt; approval_workflow.workflow_step_id]
-  approver_user_id int [ref: &gt; user.user_id]
-  comment text
-}
-
-// ============================================
-// WAREHOUSE
-// ============================================
-Table purchase_request {
-  purchase_request_id int [pk, increment]
-  material_id int [note: 'Black Box (FK to material)']
-  requested_quantity decimal(10,2)
-  current_stock decimal(10,2)
-  suggested_supplier varchar(255)
-  estimated_cost decimal(10,2)
-  requested_by_user_id int [ref: &gt; user.user_id]
-  director_approved_at timestamp
-  completed_at timestamp
-  budget_allocation_id int [note: 'Black Box (FK to budget_allocation)']
-  quantity_purchased decimal(10,2)
-}
-
-Table inventory_audit_cycle {
-  audit_cycle_id int [pk, increment]
-  cycle_name varchar(100)
-  start_date date
-  end_date date
-  approved_by_user_id int [ref: &gt; user.user_id]
-  notes text
-}
-
-Table inventory_audit_item {
-  audit_item_id int [pk, increment]
-  audit_cycle_id int [ref: &gt; inventory_audit_cycle.audit_cycle_id]
-  material_id int [note: 'Black Box (FK to material)']
-  system_quantity decimal(10,2)
-  physical_quantity decimal(10,2)
-  notes text
-}
-
-// ============================================
-// PERMITS
-// ============================================
-Table permit {
-  permit_id int [pk, increment]
-  source_type varchar(30)
-  source_id int
-  permit_type_id int [ref: &gt; permit_type.permit_type_id]
-  permit_number varchar(50)
-  issue_date date
-  expiry_date date
-  issued_by_user_id int [ref: &gt; user.user_id]
-  location varchar(255)
-  latitude decimal(10,8)
-  longitude decimal(11,8)
-  detailed_description text
-  qr_code varchar(500)
-}
-
-// ============================================
-// SHARED / CROSS-MODULE
-// ============================================
-Table attachment {
-  attachment_id int [pk, increment]
-  entity_type varchar(50)
-  entity_id int
-  file_name varchar(255)
-  file_path varchar(500)
-  file_size int
-  mime_type varchar(100)
-  description text
-  uploaded_by_user_id int [ref: &gt; user.user_id]
-}
-
-Table notification {
-  notification_id int [pk, increment]
-  recipient_user_id int [ref: &gt; user.user_id]
-  recipient_citizen_id int [note: 'Black Box (FK to citizen)']
-  recipient_phone varchar(20)
-  recipient_email varchar(100)
-  entity_type varchar(50)
-  entity_id int
+Table general_request {
+  general_request_id int [pk, increment]
+  request_type_id int [ref: &gt; request_type.request_type_id]
+  requester_user_id int [ref: &gt; user.user_id]
+  department_id int [ref: &gt; department.department_id]
+  directorate_id int [note: 'Black Box (FK to directorate)']
   subject varchar(255)
-  message text
-  channel_id int [ref: &gt; channel.channel_id]
-  delivery_status varchar(20)
-  is_read boolean
-  read_at timestamp
-  sent_at timestamp
-}
-
-Table transaction_fee {
-  transaction_fee_id int [pk, increment]
-  entity_type varchar(30)
-  entity_id int
-  fee_type_id int [ref: &gt; fee_type.fee_type_id]
-  amount decimal(10,2)
-  payment_method_id int [ref: &gt; payment_method.payment_method_id]
-  payment_date timestamp
-  receipt_number varchar(100)
-  due_date date
-  notes text
+  description text
+  fulfilled_at timestamp
 }
 
 // ============================================
-// UNIVERSAL STATUS SYSTEM
+// CIRCULARS &amp; PROPOSALS
 // ============================================
+
+Table circular_proposal {
+  proposal_id int [pk, increment]
+  title varchar(255)
+  content text
+  justification text
+  proposed_by_user_id int [ref: &gt; user.user_id]
+  department_id int [ref: &gt; department.department_id]
+  sent_to_municipality_at timestamp
+  municipality_feedback text
+  approved_version text
+  approved_at timestamp
+  final_circular_id int [ref: &gt; circular.circular_id]
+}
+
+Table circular {
+  circular_id int [pk, increment]
+  circular_number varchar(50)
+  title varchar(255)
+  content text
+  issue_date date
+  effective_date date
+  issued_by_user_id int [ref: &gt; user.user_id]
+  department_id int [ref: &gt; department.department_id]
+  proposal_id int [ref: &gt; circular_proposal.proposal_id]
+}
+
+// ============================================
+// PERFORMANCE REPORTS
+// ============================================
+
+Table performance_report {
+  report_id int [pk, increment]
+  report_type_id int [ref: &gt; performance_report_type.report_type_id]
+  reporter_user_id int [ref: &gt; user.user_id]
+  subject_user_id int [ref: &gt; user.user_id]
+  department_id int [ref: &gt; department.department_id]
+  report_date date
+  description text
+  recommendations text
+  sent_to_hr boolean
+  sent_to_investigation boolean
+  investigation_result text
+  resolution_action text
+}
+
+// ============================================
+// UNIVERSAL STATUS TRACKING
+// ============================================
+
 Table entity_status {
   entity_status_id int [pk, increment]
   entity_type varchar(50)
@@ -338,8 +228,9 @@ Table entity_status {
 }
 
 // ============================================
-// RELATIONSHIPS (Foreign Keys)
+// RELATIONSHIPS
 // ============================================
+
 Ref: user.role_id &gt; role.role_id
 Ref: user.department_id &gt; department.department_id
 Ref: department.parent_id &gt; department.department_id
@@ -358,40 +249,24 @@ Ref: department_permission.permission_id &gt; permission.permission_id
 
 Ref: attendance_event.user_id &gt; user.user_id
 
-Ref: citizen_transaction.transaction_type_id &gt; transaction_type.transaction_type_id
-Ref: citizen_transaction.channel_id &gt; channel.channel_id
-Ref: citizen_transaction.assigned_to_department_id &gt; department.department_id
-Ref: citizen_transaction.assigned_to_user_id &gt; user.user_id
+Ref: general_request.request_type_id &gt; request_type.request_type_id
+Ref: general_request.requester_user_id &gt; user.user_id
+Ref: general_request.department_id &gt; department.department_id
 
-Ref: directorate_transaction.transaction_type_id &gt; transaction_type.transaction_type_id
-Ref: directorate_transaction.parent_transaction_id &gt; directorate_transaction.directorate_transaction_id
-Ref: directorate_transaction.channel_id &gt; channel.channel_id
-Ref: directorate_transaction.assigned_to_department_id &gt; department.department_id
-Ref: directorate_transaction.assigned_to_user_id &gt; user.user_id
+Ref: circular_proposal.proposed_by_user_id &gt; user.user_id
+Ref: circular_proposal.department_id &gt; department.department_id
+Ref: circular_proposal.final_circular_id &gt; circular.circular_id
 
-Ref: approval_history.workflow_step_id &gt; approval_workflow.workflow_step_id
-Ref: approval_history.approver_user_id &gt; user.user_id
+Ref: circular.issued_by_user_id &gt; user.user_id
+Ref: circular.department_id &gt; department.department_id
+Ref: circular.proposal_id &gt; circular_proposal.proposal_id
 
-Ref: purchase_request.requested_by_user_id &gt; user.user_id
-
-Ref: inventory_audit_item.audit_cycle_id &gt; inventory_audit_cycle.audit_cycle_id
-Ref: inventory_audit_cycle.approved_by_user_id &gt; user.user_id
-
-Ref: permit.permit_type_id &gt; permit_type.permit_type_id
-Ref: permit.issued_by_user_id &gt; user.user_id
-
-Ref: attachment.uploaded_by_user_id &gt; user.user_id
-
-Ref: notification.recipient_user_id &gt; user.user_id
-Ref: notification.channel_id &gt; channel.channel_id
-
-Ref: transaction_fee.fee_type_id &gt; fee_type.fee_type_id
-Ref: transaction_fee.payment_method_id &gt; payment_method.payment_method_id
-
-Ref: entity_status.status_id &gt; status.status_id
-Ref: entity_status.previous_status_id &gt; status.status_id
-// @view -2120 -2811 1.309
-// @size 1569 739
+Ref: performance_report.report_type_id &gt; performance_report_type.report_type_id
+Ref: performance_report.reporter_user_id &gt; user.user_id
+Ref: performance_report.subject_user_id &gt; user.user_id
+Ref: performance_report.department_id &gt; department.department_id
+// @view -510 -1017 0.999
+// @size 1575 796
 </code></pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>

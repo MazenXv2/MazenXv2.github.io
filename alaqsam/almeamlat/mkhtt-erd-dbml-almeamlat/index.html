@@ -77,12 +77,17 @@ Table status {
 Table citizen {
   citizen_id int [pk, increment]
   full_name varchar(255)
+  phone varchar(20)
+  email varchar(100)
+  id_number varchar(50)
   note: 'Black Box (managed by external system)'
 }
 
 Table directorate {
   directorate_id int [pk, increment]
   name varchar(100)
+  phone varchar(20)
+  email varchar(100)
   note: 'Black Box (managed by external system)'
 }
 
@@ -124,7 +129,30 @@ Table directorate_transaction {
 }
 
 // ============================================
-// STATUS TRACKING
+// APPROVAL SYSTEM
+// ============================================
+
+Table approval_workflow {
+  workflow_step_id int [pk, increment]
+  entity_type varchar(50)
+  entity_type_id int
+  step_order int
+  step_name varchar(100)
+  approving_directorate_id int [note: 'Black Box (FK to directorate)']
+  approving_department_id int [ref: &gt; department.department_id]
+}
+
+Table approval_history {
+  approval_history_id int [pk, increment]
+  entity_type varchar(50)
+  entity_id int
+  workflow_step_id int [ref: &gt; approval_workflow.workflow_step_id]
+  approver_user_id int [ref: &gt; user.user_id]
+  comment text
+}
+
+// ============================================
+// STATUS TRACKING (Global)
 // ============================================
 
 Table entity_status {
@@ -137,7 +165,7 @@ Table entity_status {
 }
 
 // ============================================
-// REFERENCED TABLES (Black Box)
+// REFERENCED TABLES (Black Box - For Context)
 // ============================================
 
 Table user {
@@ -151,7 +179,7 @@ Table department {
 }
 
 // ============================================
-// RELATIONSHIPS (Foreign Keys)
+// RELATIONSHIPS
 // ============================================
 
 // Citizen → Citizen Transaction
@@ -172,11 +200,15 @@ Ref: directorate_transaction.channel_id &gt; channel.channel_id
 Ref: directorate_transaction.assigned_to_department_id &gt; department.department_id
 Ref: directorate_transaction.assigned_to_user_id &gt; user.user_id
 
-// Entity Status Relationships
+// Approval System
+Ref: approval_history.workflow_step_id &gt; approval_workflow.workflow_step_id
+Ref: approval_history.approver_user_id &gt; user.user_id
+
+// Entity Status
 Ref: entity_status.status_id &gt; status.status_id
 Ref: entity_status.previous_status_id &gt; status.status_id
-// @view 509 142 0.388
-// @size 1560 703
+// @view 52 97 0.761
+// @size 1569 745
 </code></pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>

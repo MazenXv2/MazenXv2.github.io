@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>مخطط erd-mermaid النافذة</title>
+<title>مخطط erd-mermaid الإداري</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -41,23 +41,6 @@
     %% ============================================
     %% CORE LOOKUP TABLES
     %% ============================================
-    channel {
-        int channel_id PK
-        varchar name
-        varchar display_name
-        text description
-        boolean is_active
-    }
-
-    transaction_type {
-        int transaction_type_id PK
-        varchar name
-        varchar display_name
-        text description
-        boolean is_active
-        int directorate_id
-    }
-
     status {
         int status_id PK
         varchar name
@@ -66,107 +49,164 @@
         varchar color_code
     }
 
-    %% ============================================
-    %% ENTITY TABLES (Black Box)
-    %% ============================================
-    citizen {
-        int citizen_id PK
-        varchar full_name
-        varchar phone
-        varchar email
-        varchar id_number
-    }
-
-    directorate {
-        int directorate_id PK
+    request_type {
+        int request_type_id PK
         varchar name
-        varchar phone
+        varchar display_name
+        text description
+        boolean is_active
+    }
+
+    performance_report_type {
+        int report_type_id PK
+        varchar name
+        varchar display_name
+        text description
+        boolean is_active
+    }
+
+    %% ============================================
+    %% USERS & STRUCTURE
+    %% ============================================
+    user {
+        int user_id PK
+        varchar username
+        varchar password_hash
         varchar email
+        varchar phone
+        int role_id
+        int department_id
+        int directorate_id
+        boolean is_active
+        datetime last_login
     }
 
-    %% ============================================
-    %% TRANSACTION TABLES (Core)
-    %% ============================================
-    citizen_transaction {
-        int citizen_transaction_id PK
-        int transaction_type_id
-        int citizen_id
-        varchar citizen_name
-        varchar citizen_phone
-        varchar citizen_email
-        varchar citizen_id_number
+    role {
+        int role_id PK
+        varchar role_name
         text description
-        varchar location
-        decimal latitude
-        decimal longitude
-        int source_directorate_id
-        int channel_id
-        int assigned_to_department_id
-        int assigned_to_user_id
     }
 
-    directorate_transaction {
-        int directorate_transaction_id PK
-        int transaction_type_id
-        int source_directorate_id
-        varchar reference_number
+    department {
+        int department_id PK
+        varchar name
+        int parent_id
+        int manager_user_id
         text description
-        varchar location
-        decimal latitude
-        decimal longitude
-        int parent_transaction_id
-        int channel_id
-        int assigned_to_department_id
-        int assigned_to_user_id
+        int directorate_id
+    }
+
+    resource {
+        int resource_id PK
+        varchar name
+        text description
+        varchar module
+    }
+
+    permission {
+        int permission_id PK
+        varchar name
+        text description
+        int resource_id
+        varchar action
+    }
+
+    role_permission {
+        int role_id PK
+        int permission_id PK
+        boolean can_grant
+    }
+
+    user_permission {
+        int user_id PK
+        int permission_id PK
+        int granted_by_user_id
+        datetime granted_at
+        datetime start_date
+        datetime end_date
+    }
+
+    department_permission {
+        int department_id PK
+        int permission_id PK
     }
 
     %% ============================================
-    %% SHARED / CROSS-MODULE TABLES
+    %% ATTENDANCE
     %% ============================================
-    attachment {
-        int attachment_id PK
-        varchar entity_type
-        int entity_id
-        varchar file_name
-        varchar file_path
-        int file_size
-        varchar mime_type
-        text description
-        int uploaded_by_user_id
-    }
-
-    notification {
-        int notification_id PK
-        int recipient_user_id
-        int recipient_citizen_id
-        varchar recipient_phone
-        varchar recipient_email
-        varchar entity_type
-        int entity_id
-        varchar subject
-        text message
-        int channel_id
-        varchar delivery_status
-        boolean is_read
-        datetime read_at
-        datetime sent_at
-    }
-
-    transaction_fee {
-        int transaction_fee_id PK
-        varchar entity_type
-        int entity_id
-        int fee_type_id
-        decimal amount
-        int payment_method_id
-        datetime payment_date
-        varchar receipt_number
-        date due_date
+    attendance_event {
+        int event_id PK
+        int user_id
+        timestamp event_time
+        varchar event_type
+        int task_id
+        boolean go_home_directly
         text notes
     }
 
     %% ============================================
-    %% STATUS TRACKING (Global)
+    %% GENERAL REQUESTS
+    %% ============================================
+    general_request {
+        int general_request_id PK
+        int request_type_id
+        int requester_user_id
+        int department_id
+        int directorate_id
+        varchar subject
+        text description
+        datetime fulfilled_at
+    }
+
+    %% ============================================
+    %% CIRCULARS & PROPOSALS
+    %% ============================================
+    circular_proposal {
+        int proposal_id PK
+        varchar title
+        text content
+        text justification
+        int proposed_by_user_id
+        int department_id
+        datetime sent_to_municipality_at
+        text municipality_feedback
+        text approved_version
+        datetime approved_at
+        int final_circular_id
+    }
+
+    circular {
+        int circular_id PK
+        varchar circular_number
+        varchar title
+        text content
+        date issue_date
+        date effective_date
+        int issued_by_user_id
+        int department_id
+        int proposal_id
+    }
+
+    %% ============================================
+    %% PERFORMANCE REPORTS
+    %% ============================================
+    performance_report {
+        int report_id PK
+        int report_type_id
+        int reporter_user_id
+        int subject_user_id
+        int department_id
+        date report_date
+        text description
+        text recommendations
+        boolean sent_to_hr
+        boolean sent_to_investigation
+        text investigation_result
+        text resolution_action
+    }
+
+    %% ============================================
+    %% UNIVERSAL STATUS TRACKING
     %% ============================================
     entity_status {
         int entity_status_id PK
@@ -178,47 +218,45 @@
     }
 
     %% ============================================
-    %% REFERENCED TABLES (Black Box - For Context)
-    %% ============================================
-    user {
-        int user_id PK
-        varchar username
-    }
-
-    department {
-        int department_id PK
-        varchar name
-    }
-
-    %% ============================================
     %% RELATIONSHIPS
     %% ============================================
-    citizen ||--o{ citizen_transaction : "يقدم"
-    directorate ||--o{ directorate_transaction : "يرسل"
+    user }o--|| role : "has role"
+    user }o--|| department : "belongs to"
 
-    citizen_transaction }o--|| transaction_type : "has type"
-    citizen_transaction }o--|| channel : "submitted via"
-    citizen_transaction }o--|| department : "assigned to dept"
-    citizen_transaction }o--|| user : "assigned to user"
+    role_permission }o--|| role : "links to"
+    role_permission }o--|| permission : "links to"
+    user_permission }o--|| user : "assigned to"
+    user_permission }o--|| permission : "has permission"
+    user_permission }o--|| user : "granted by"
+    department_permission }o--|| department : "assigned to"
+    department_permission }o--|| permission : "has permission"
+    permission }o--|| resource : "belongs to"
 
-    directorate_transaction }o--|| transaction_type : "has type"
-    directorate_transaction }o--|| channel : "received via"
-    directorate_transaction }o--|| department : "assigned to dept"
-    directorate_transaction }o--|| user : "assigned to user"
+    attendance_event }o--|| user : "belongs to"
 
-    attachment }o--|| citizen_transaction : "attached to (polymorphic)"
-    attachment }o--|| directorate_transaction : "attached to (polymorphic)"
+    general_request }o--|| request_type : "has type"
+    general_request }o--|| user : "requested by"
+    general_request }o--|| department : "belongs to"
+    general_request }o--|| directorate : "sent to"
 
-    notification }o--|| citizen_transaction : "sent for (polymorphic)"
-    notification }o--|| directorate_transaction : "sent for (polymorphic)"
+    circular_proposal }o--|| user : "proposed by"
+    circular_proposal }o--|| department : "belongs to"
+    circular_proposal }o--|| circular : "results in"
 
-    transaction_fee }o--|| citizen_transaction : "linked to (polymorphic)"
-    transaction_fee }o--|| directorate_transaction : "linked to (polymorphic)"
+    circular }o--|| user : "issued by"
+    circular }o--|| department : "belongs to"
+    circular }o--|| circular_proposal : "originates from"
+
+    performance_report }o--|| performance_report_type : "has type"
+    performance_report }o--|| user : "reported by"
+    performance_report }o--|| user : "subject of"
+    performance_report }o--|| department : "belongs to"
 
     entity_status }o--|| status : "has status"
-    entity_status }o--|| status : "had previous status"
-    entity_status ||--o{ citizen_transaction : "tracks"
-    entity_status ||--o{ directorate_transaction : "tracks"</pre>
+    entity_status }o--|| general_request : "tracks"
+    entity_status }o--|| circular_proposal : "tracks"
+    entity_status }o--|| performance_report : "tracks"
+    entity_status }o--|| attendance_event : "tracks"</pre>
 </main>
 <script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
 <script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
