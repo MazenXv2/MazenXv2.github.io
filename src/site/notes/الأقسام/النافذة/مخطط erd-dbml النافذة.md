@@ -5,15 +5,12 @@
 ```dbml
 // ============================================
 // قسم النافذة (Window Unit)
-// استقبال شكاوى واستفسارات المواطن
-// واستقبال كتب ومراسلات المديريات الأخرى
 // ============================================
 
 // ============================================
-// الجداول الأساسية
+// CORE LOOKUP TABLES
 // ============================================
 
-// قنوات الاستقبال
 Table channel {
   channel_id int [pk, increment]
   name varchar(50)
@@ -22,17 +19,15 @@ Table channel {
   is_active boolean
 }
 
-// أنواع المعاملات
 Table transaction_type {
   transaction_type_id int [pk, increment]
   name varchar(50)
   display_name varchar(100)
   description text
   is_active boolean
-  directorate_id int [note: 'Black Box: معرف المديرية']
+  directorate_id int [note: 'Black Box (FK to external directorate)']
 }
 
-// الحالات العامة
 Table status {
   status_id int [pk, increment]
   name varchar(50)
@@ -42,14 +37,34 @@ Table status {
 }
 
 // ============================================
-// معاملات المواطن
+// ENTITY TABLES (Black Box)
 // ============================================
 
-// معاملة المواطن (الشكوى / الاستفسار)
+Table citizen {
+  citizen_id int [pk, increment]
+  full_name varchar(255)
+  phone varchar(20)
+  email varchar(100)
+  id_number varchar(50)
+  note: 'Black Box (managed by external system)'
+}
+
+Table directorate {
+  directorate_id int [pk, increment]
+  name varchar(100)
+  phone varchar(20)
+  email varchar(100)
+  note: 'Black Box (managed by external system)'
+}
+
+// ============================================
+// TRANSACTION TABLES
+// ============================================
+
 Table citizen_transaction {
   citizen_transaction_id int [pk, increment]
   transaction_type_id int [ref: > transaction_type.transaction_type_id]
-  citizen_id int [note: 'Black Box: معرف المواطن من النظام الخارجي']
+  citizen_id int [ref: > citizen.citizen_id]
   citizen_name varchar(255)
   citizen_phone varchar(20)
   citizen_email varchar(100)
@@ -58,37 +73,31 @@ Table citizen_transaction {
   location varchar(255)
   latitude decimal(10,8)
   longitude decimal(11,8)
-  source_directorate_id int [note: 'Black Box: معرف المديرية المحولة (إن وجد)']
+  source_directorate_id int [note: 'Black Box (FK to directorate)']
   channel_id int [ref: > channel.channel_id]
   assigned_to_department_id int [ref: > department.department_id]
   assigned_to_user_id int [ref: > user.user_id]
 }
 
-// ============================================
-// معاملات المديريات الأخرى
-// ============================================
-
-// معاملة مديرية أخرى (كتاب وارد، طلب تنسيق)
 Table directorate_transaction {
   directorate_transaction_id int [pk, increment]
   transaction_type_id int [ref: > transaction_type.transaction_type_id]
-  source_directorate_id int [note: 'Black Box: معرف المديرية المرسلة']
+  source_directorate_id int [ref: > directorate.directorate_id]
   reference_number varchar(100)
   description text
   location varchar(255)
   latitude decimal(10,8)
   longitude decimal(11,8)
-  parent_transaction_id int [ref: > directorate_transaction.directorate_transaction_id]
+  parent_transaction_id int [note: 'Reference to another directorate_transaction (Free ID, no FK)']
   channel_id int [ref: > channel.channel_id]
   assigned_to_department_id int [ref: > department.department_id]
   assigned_to_user_id int [ref: > user.user_id]
 }
 
 // ============================================
-// المرفقات والإشعارات والرسوم
+// SHARED / CROSS-MODULE TABLES
 // ============================================
 
-// المرفقات (صور، مستندات) — مرتبطة بأي كيان
 Table attachment {
   attachment_id int [pk, increment]
   entity_type varchar(50)
@@ -101,11 +110,10 @@ Table attachment {
   uploaded_by_user_id int [ref: > user.user_id]
 }
 
-// الإشعارات المرسلة للمواطن أو المستخدم
 Table notification {
   notification_id int [pk, increment]
   recipient_user_id int [ref: > user.user_id]
-  recipient_citizen_id int [note: 'Black Box: معرف المواطن']
+  recipient_citizen_id int [note: 'Black Box (FK to citizen)']
   recipient_phone varchar(20)
   recipient_email varchar(100)
   entity_type varchar(50)
@@ -119,7 +127,6 @@ Table notification {
   sent_at timestamp
 }
 
-// الرسوم المالية (إذا كانت المعاملة تتطلب دفع رسوم)
 Table transaction_fee {
   transaction_fee_id int [pk, increment]
   entity_type varchar(30)
@@ -134,8 +141,9 @@ Table transaction_fee {
 }
 
 // ============================================
-// تتبع الحالة (Universal Status)
+// STATUS TRACKING (Global)
 // ============================================
+
 Table entity_status {
   entity_status_id int [pk, increment]
   entity_type varchar(50)
@@ -146,29 +154,51 @@ Table entity_status {
 }
 
 // ============================================
-// العلاقات (Foreign Keys)
+// REFERENCED TABLES (Black Box - For Context)
 // ============================================
+
+Table user {
+  user_id int [pk, increment]
+  username varchar(50)
+}
+
+Table department {
+  department_id int [pk, increment]
+  name varchar(100)
+}
+
+// ============================================
+// RELATIONSHIPS
+// ============================================
+
+// Citizen → Citizen Transaction
+Ref: citizen_transaction.citizen_id > citizen.citizen_id
+
+// Directorate → Directorate Transaction
+Ref: directorate_transaction.source_directorate_id > directorate.directorate_id
+
+// Citizen Transaction Relationships
 Ref: citizen_transaction.transaction_type_id > transaction_type.transaction_type_id
 Ref: citizen_transaction.channel_id > channel.channel_id
+Ref: citizen_transaction.assigned_to_department_id > department.department_id
+Ref: citizen_transaction.assigned_to_user_id > user.user_id
 
+// Directorate Transaction Relationships
 Ref: directorate_transaction.transaction_type_id > transaction_type.transaction_type_id
-Ref: directorate_transaction.parent_transaction_id > directorate_transaction.directorate_transaction_id
 Ref: directorate_transaction.channel_id > channel.channel_id
+Ref: directorate_transaction.assigned_to_department_id > department.department_id
+Ref: directorate_transaction.assigned_to_user_id > user.user_id
 
-// العلاقات العامة
-Ref: attachment.entity_id > citizen_transaction.citizen_transaction_id
-Ref: attachment.entity_id > directorate_transaction.directorate_transaction_id
+// Attachment
+Ref: attachment.uploaded_by_user_id > user.user_id
 
-Ref: notification.entity_id > citizen_transaction.citizen_transaction_id
-Ref: notification.entity_id > directorate_transaction.directorate_transaction_id
+// Notification
+Ref: notification.recipient_user_id > user.user_id
+Ref: notification.channel_id > channel.channel_id
 
-Ref: transaction_fee.entity_id > citizen_transaction.citizen_transaction_id
-Ref: transaction_fee.entity_id > directorate_transaction.directorate_transaction_id
-
-Ref: entity_status.entity_id > citizen_transaction.citizen_transaction_id
-Ref: entity_status.entity_id > directorate_transaction.directorate_transaction_id
+// Entity Status
 Ref: entity_status.status_id > status.status_id
 Ref: entity_status.previous_status_id > status.status_id
-// @view 558 15 0.512
-// @size 1767 762
+// @view 150 148 0.927
+// @size 1571 777
 ```

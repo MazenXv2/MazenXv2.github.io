@@ -38,11 +38,16 @@ erDiagram
     citizen {
         int citizen_id PK
         varchar full_name
+        varchar phone
+        varchar email
+        varchar id_number
     }
 
     directorate {
         int directorate_id PK
         varchar name
+        varchar phone
+        varchar email
     }
 
     %% ============================================
@@ -82,7 +87,29 @@ erDiagram
     }
 
     %% ============================================
-    %% STATUS TRACKING
+    %% APPROVAL SYSTEM
+    %% ============================================
+    approval_workflow {
+        int workflow_step_id PK
+        varchar entity_type
+        int entity_type_id
+        int step_order
+        varchar step_name
+        int approving_directorate_id
+        int approving_department_id
+    }
+
+    approval_history {
+        int approval_history_id PK
+        varchar entity_type
+        int entity_id
+        int workflow_step_id
+        int approver_user_id
+        text comment
+    }
+
+    %% ============================================
+    %% STATUS TRACKING (Global)
     %% ============================================
     entity_status {
         int entity_status_id PK
@@ -91,6 +118,19 @@ erDiagram
         int status_id
         int previous_status_id
         text comment
+    }
+
+    %% ============================================
+    %% REFERENCED TABLES (Black Box - For Context)
+    %% ============================================
+    user {
+        int user_id PK
+        varchar username
+    }
+
+    department {
+        int department_id PK
+        varchar name
     }
 
     %% ============================================
@@ -109,21 +149,11 @@ erDiagram
     directorate_transaction }o--|| department : "assigned to dept"
     directorate_transaction }o--|| user : "assigned to user"
 
+    approval_history }o--|| approval_workflow : "follows step"
+    approval_history }o--|| user : "approved by"
+
     entity_status }o--|| status : "has status"
     entity_status }o--|| status : "had previous status"
-    entity_status }o--|| citizen_transaction : "tracks"
-    entity_status }o--|| directorate_transaction : "tracks"
-
-    %% ============================================
-    %% REFERENCED TABLES (Black Box)
-    %% ============================================
-    user {
-        int user_id PK
-        varchar username
-    }
-
-    department {
-        int department_id PK
-        varchar name
-    }
+    entity_status ||--o{ citizen_transaction : "tracks"
+    entity_status ||--o{ directorate_transaction : "tracks"
 ```

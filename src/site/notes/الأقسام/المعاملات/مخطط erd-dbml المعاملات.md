@@ -43,12 +43,17 @@ Table status {
 Table citizen {
   citizen_id int [pk, increment]
   full_name varchar(255)
+  phone varchar(20)
+  email varchar(100)
+  id_number varchar(50)
   note: 'Black Box (managed by external system)'
 }
 
 Table directorate {
   directorate_id int [pk, increment]
   name varchar(100)
+  phone varchar(20)
+  email varchar(100)
   note: 'Black Box (managed by external system)'
 }
 
@@ -90,7 +95,30 @@ Table directorate_transaction {
 }
 
 // ============================================
-// STATUS TRACKING
+// APPROVAL SYSTEM
+// ============================================
+
+Table approval_workflow {
+  workflow_step_id int [pk, increment]
+  entity_type varchar(50)
+  entity_type_id int
+  step_order int
+  step_name varchar(100)
+  approving_directorate_id int [note: 'Black Box (FK to directorate)']
+  approving_department_id int [ref: > department.department_id]
+}
+
+Table approval_history {
+  approval_history_id int [pk, increment]
+  entity_type varchar(50)
+  entity_id int
+  workflow_step_id int [ref: > approval_workflow.workflow_step_id]
+  approver_user_id int [ref: > user.user_id]
+  comment text
+}
+
+// ============================================
+// STATUS TRACKING (Global)
 // ============================================
 
 Table entity_status {
@@ -103,7 +131,7 @@ Table entity_status {
 }
 
 // ============================================
-// REFERENCED TABLES (Black Box)
+// REFERENCED TABLES (Black Box - For Context)
 // ============================================
 
 Table user {
@@ -117,7 +145,7 @@ Table department {
 }
 
 // ============================================
-// RELATIONSHIPS (Foreign Keys)
+// RELATIONSHIPS
 // ============================================
 
 // Citizen → Citizen Transaction
@@ -138,9 +166,13 @@ Ref: directorate_transaction.channel_id > channel.channel_id
 Ref: directorate_transaction.assigned_to_department_id > department.department_id
 Ref: directorate_transaction.assigned_to_user_id > user.user_id
 
-// Entity Status Relationships
+// Approval System
+Ref: approval_history.workflow_step_id > approval_workflow.workflow_step_id
+Ref: approval_history.approver_user_id > user.user_id
+
+// Entity Status
 Ref: entity_status.status_id > status.status_id
 Ref: entity_status.previous_status_id > status.status_id
-// @view 509 142 0.388
-// @size 1560 703
+// @view 52 97 0.761
+// @size 1569 745
 ```
