@@ -231,6 +231,6 @@ Ref: performance_report.report_type_id > performance_report_type.report_type_id
 Ref: performance_report.reporter_user_id > user.user_id
 Ref: performance_report.subject_user_id > user.user_id
 Ref: performance_report.department_id > department.department_id
-// @view -510 -1017 0.999
+// @view -401 -615 1.098
 // @size 1575 796
 ```
