@@ -75,7 +75,9 @@ flowchart TD
     DeliverMaterials --> RequestExit1[طلب إخراج]
     RequestExit1 --> End1([End])
     
-    CheckAvailability -->|غير متوفرة| NotifyDirector[إشعار المدير بعدم التوفر]
+    CheckAvailability -->|غير متوفرة| CreatePurchaseRequest[إنشاء طلب شراء]
+    
+    CreatePurchaseRequest --> NotifyDirector[إشعار المدير بعدم التوفر]
     
     NotifyDirector --> DirectorDecision{موافقة المدير على الشراء}
     
@@ -83,9 +85,7 @@ flowchart TD
     RejectRequest --> NotifyRequester[إشعار مقدم الطلب بالرفض]
     NotifyRequester --> End2([End])
     
-    DirectorDecision -->|موافقة| CreatePurchaseRequest[إنشاء طلب شراء]
-    
-    CreatePurchaseRequest --> SendToProcurement[إحالة إلى لجنة الشراء]
+    DirectorDecision -->|موافقة| SendToProcurement[إحالة إلى لجنة الشراء]
     
     SendToProcurement --> ProcurementReview[دراسة طلب الشراء]
     

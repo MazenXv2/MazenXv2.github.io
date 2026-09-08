@@ -4,111 +4,45 @@
 
 ```dbml
 // ============================================
-// القسم الإداري (Admin Section)
+// القسم الإداري (Admin Section) - Final Clean Version
 // ============================================
 
 // ============================================
-// CORE LOOKUP TABLES
+// GLOBAL LOOKUP TABLE
 // ============================================
 
 Table status {
   status_id int [pk, increment]
-  name varchar(50)
-  display_name varchar(100)
-  description text
-  color_code varchar(7)
-}
-
-Table request_type {
-  request_type_id int [pk, increment]
-  name varchar(50)
-  display_name varchar(100)
-  description text
-  is_active boolean
-}
-
-Table performance_report_type {
-  report_type_id int [pk, increment]
-  name varchar(50)
-  display_name varchar(100)
-  description text
-  is_active boolean
 }
 
 // ============================================
-// USERS & STRUCTURE
+// BLACK BOX TABLES (Only ID is stored)
 // ============================================
 
-Table user {
+Table user_black_box {
   user_id int [pk, increment]
-  username varchar(50)
-  password_hash varchar(255)
-  email varchar(100)
-  phone varchar(20)
-  role_id int [ref: > role.role_id]
-  department_id int [ref: > department.department_id]
-  directorate_id int [note: 'Black Box (FK to external directorate)']
-  is_active boolean
-  last_login timestamp
 }
 
-Table role {
-  role_id int [pk, increment]
-  role_name varchar(50)
-  description text
+Table directorate_black_box {
+  directorate_id int [pk, increment]
 }
 
-Table department {
-  department_id int [pk, increment]
-  name varchar(100)
-  parent_id int [ref: > department.department_id]
-  manager_user_id int [ref: > user.user_id]
-  description text
-  directorate_id int [note: 'Black Box (FK to external directorate)']
+Table audit_log_black_box {
+  audit_log_id int [pk, increment]
+  user_id int [ref: > user_black_box.user_id]
 }
 
-Table resource {
-  resource_id int [pk, increment]
-  name varchar(50)
-  description text
-  module varchar(50)
-}
-
-Table permission {
-  permission_id int [pk, increment]
-  name varchar(50)
-  description text
-  resource_id int [ref: > resource.resource_id]
-  action varchar(50)
-}
-
-Table role_permission {
-  role_id int [pk, ref: > role.role_id]
-  permission_id int [pk, ref: > permission.permission_id]
-  can_grant boolean
-}
-
-Table user_permission {
-  user_id int [pk, ref: > user.user_id]
-  permission_id int [pk, ref: > permission.permission_id]
-  granted_by_user_id int [ref: > user.user_id]
-  granted_at timestamp
-  start_date timestamp
-  end_date timestamp
-}
-
-Table department_permission {
-  department_id int [pk, ref: > department.department_id]
-  permission_id int [pk, ref: > permission.permission_id]
+Table employee_black_box {
+	employee_id int [pk, increment]
 }
 
 // ============================================
-// ATTENDANCE
+// ATTENDANCE (Your Design)
 // ============================================
 
 Table attendance_event {
   event_id int [pk, increment]
-  user_id int [ref: > user.user_id]
+  user_id int [ref: > employee_black_box.employee_id]
   event_time timestamp
   event_type varchar(10)
   task_id int [note: 'Black Box (FK to task, optional)']
@@ -117,22 +51,7 @@ Table attendance_event {
 }
 
 // ============================================
-// GENERAL REQUESTS
-// ============================================
-
-Table general_request {
-  general_request_id int [pk, increment]
-  request_type_id int [ref: > request_type.request_type_id]
-  requester_user_id int [ref: > user.user_id]
-  department_id int [ref: > department.department_id]
-  directorate_id int [note: 'Black Box (FK to directorate)']
-  subject varchar(255)
-  description text
-  fulfilled_at timestamp
-}
-
-// ============================================
-// CIRCULARS & PROPOSALS
+// CIRCULARS & PROPOSALS (Your Design)
 // ============================================
 
 Table circular_proposal {
@@ -140,12 +59,12 @@ Table circular_proposal {
   title varchar(255)
   content text
   justification text
-  proposed_by_user_id int [ref: > user.user_id]
-  department_id int [ref: > department.department_id]
+  proposed_by_user_id int [ref: > user_black_box.user_id]
   sent_to_municipality_at timestamp
   municipality_feedback text
   approved_version text
   approved_at timestamp
+  approved_by_directorate_id int [ref: > directorate_black_box.directorate_id]
   final_circular_id int [ref: > circular.circular_id]
 }
 
@@ -156,32 +75,11 @@ Table circular {
   content text
   issue_date date
   effective_date date
-  issued_by_user_id int [ref: > user.user_id]
-  department_id int [ref: > department.department_id]
-  proposal_id int [ref: > circular_proposal.proposal_id]
+  issued_by_user_id int [ref: > user_black_box.user_id]
 }
 
 // ============================================
-// PERFORMANCE REPORTS
-// ============================================
-
-Table performance_report {
-  report_id int [pk, increment]
-  report_type_id int [ref: > performance_report_type.report_type_id]
-  reporter_user_id int [ref: > user.user_id]
-  subject_user_id int [ref: > user.user_id]
-  department_id int [ref: > department.department_id]
-  report_date date
-  description text
-  recommendations text
-  sent_to_hr boolean
-  sent_to_investigation boolean
-  investigation_result text
-  resolution_action text
-}
-
-// ============================================
-// UNIVERSAL STATUS TRACKING
+// UNIVERSAL STATUS TRACKING (Your Design)
 // ============================================
 
 Table entity_status {
@@ -189,48 +87,38 @@ Table entity_status {
   entity_type varchar(50)
   entity_id int
   status_id int [ref: > status.status_id]
-  previous_status_id int [ref: > status.status_id]
-  comment text
 }
 
 // ============================================
-// RELATIONSHIPS
+// RELATIONSHIPS (Foreign Keys)
 // ============================================
 
-Ref: user.role_id > role.role_id
-Ref: user.department_id > department.department_id
-Ref: department.parent_id > department.department_id
-Ref: department.manager_user_id > user.user_id
-Ref: permission.resource_id > resource.resource_id
+// Attendance
+Ref: attendance_event.user_id > employee_black_box.employee_id
 
-Ref: role_permission.role_id > role.role_id
-Ref: role_permission.permission_id > permission.permission_id
-
-Ref: user_permission.user_id > user.user_id
-Ref: user_permission.permission_id > permission.permission_id
-Ref: user_permission.granted_by_user_id > user.user_id
-
-Ref: department_permission.department_id > department.department_id
-Ref: department_permission.permission_id > permission.permission_id
-
-Ref: attendance_event.user_id > user.user_id
-
-Ref: general_request.request_type_id > request_type.request_type_id
-Ref: general_request.requester_user_id > user.user_id
-Ref: general_request.department_id > department.department_id
-
-Ref: circular_proposal.proposed_by_user_id > user.user_id
-Ref: circular_proposal.department_id > department.department_id
+// Circular Proposals
+Ref: circular_proposal.proposed_by_user_id > user_black_box.user_id
+Ref: circular_proposal.department_id > department_black_box.department_id
 Ref: circular_proposal.final_circular_id > circular.circular_id
+Ref: circular_proposal.proposal_id > entity_status.entity_id
 
-Ref: circular.issued_by_user_id > user.user_id
-Ref: circular.department_id > department.department_id
-Ref: circular.proposal_id > circular_proposal.proposal_id
+// Circular
+Ref: circular.issued_by_user_id > user_black_box.user_id
+Ref: circular.department_id > department_black_box.department_id
 
-Ref: performance_report.report_type_id > performance_report_type.report_type_id
-Ref: performance_report.reporter_user_id > user.user_id
-Ref: performance_report.subject_user_id > user.user_id
-Ref: performance_report.department_id > department.department_id
-// @view -401 -615 1.098
-// @size 1575 796
+
+// Entity Status
+Ref: entity_status.status_id > status.status_id
+
+// @pos status 1069 676
+// @pos user_black_box 747 151
+// @pos directorate_black_box 801 276
+// @pos audit_log_black_box 744 35
+// @pos employee_black_box 1078 348
+// @pos attendance_event 1070 34
+// @pos circular_proposal 251 401
+// @pos circular 3 12
+// @pos entity_status 1073 482
+// @view 43 19 0.926
+// @size 1577 793
 ```

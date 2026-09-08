@@ -4,7 +4,7 @@
 
 ```dbml
 // ============================================
-// قسم الرخص (Permits Section)
+// قسم الرخص (Permits Section) - Hybrid Design
 // ============================================
 
 // ============================================
@@ -17,80 +17,59 @@ Table permit_type {
   display_name varchar(100)
   description text
   is_active boolean
-}
-
-Table status {
-  status_id int [pk, increment]
-  name varchar(50)
-  display_name varchar(100)
-  description text
-  color_code varchar(7)
+  fields_schema jsonb [not null, default: '[]']
+  // Defines dynamic fields: [{"key":"depth","label":"Depth","type":"decimal"}]
+  version int [default: 1]
+  note: 'fields_schema defines the dynamic fields for this permit type'
 }
 
 // ============================================
-// TRANSACTION TABLES (Source - Black Box references)
+// TRANSACTION TABLES (Source)
 // ============================================
 
-Table citizen_transaction {
-  citizen_transaction_id int [pk, increment]
-  transaction_type_id int
-  citizen_id int [note: 'Black Box (FK to citizen)']
-  citizen_name varchar(255)
-  description text
-  location varchar(255)
-  note: 'Referenced by permit.source_id when source_type = "citizen_transaction"'
-}
-
-Table directorate_transaction {
-  directorate_transaction_id int [pk, increment]
-  transaction_type_id int
-  source_directorate_id int [note: 'Black Box (FK to directorate)']
-  reference_number varchar(100)
-  description text
-  location varchar(255)
-  note: 'Referenced by permit.source_id when source_type = "directorate_transaction"'
+Table transaction {
+  transaction_id int [pk, increment]
+  note: 'Black Box (references transaction_module_bb)'
 }
 
 // ============================================
-// PERMIT TABLES
+// PERMIT TABLES (Core)
 // ============================================
 
 Table permit {
   permit_id int [pk, increment]
-  source_type varchar(30)
-  source_id int
-  permit_type_id int [ref: > permit_type.permit_type_id]
+  transaction_id int [not null, ref: > transaction.transaction_id]
+  permit_type_id int [not null, ref: > permit_type.permit_type_id]
+  
+  // Core fields (still relational for fast filtering)
   permit_number varchar(50)
   issue_date date
   expiry_date date
-  issued_by_user_id int [ref: > user.user_id]
+  issued_by_user_id int [ref: > user_black_box.user_id]
   location varchar(255)
   latitude decimal(10,8)
   longitude decimal(11,8)
-  detailed_description text
-  qr_code varchar(500)
+  
+  // ----- JSONB Payloads (Dynamic/Flexible Data) -----
+  custom_values jsonb [not null, default: '{}']
+  // Actual data: {"depth": 5.5, "area": 200, "description": "Excavation near school", "qr_code": "https://..."}
+  
+  status_history jsonb [not null, default: '[]']
+  // Full audit trail: [{"status_id": 2, "status_name": "active", "changed_at": "...", "changed_by_user_id": 5, "comment": "Permit issued"}]
+  
+  // Optional: denormalized for fast lookup (last status_id)
+  current_status_id int [null]
+  note: 'current_status_id is denormalized for performance. It should always match the last status_id in status_history.'
 }
 
 // ============================================
-// STATUS TRACKING (Global)
+// REFERENCED TABLES (Black Box)
 // ============================================
 
-Table entity_status {
-  entity_status_id int [pk, increment]
-  entity_type varchar(50)
-  entity_id int
-  status_id int [ref: > status.status_id]
-  previous_status_id int [ref: > status.status_id]
-  comment text
-}
-
-// ============================================
-// REFERENCED TABLES (Black Box - For Context)
-// ============================================
-
-Table user {
+Table user_black_box {
   user_id int [pk, increment]
   username varchar(50)
+  note: 'Black Box (managed by authentication system)'
 }
 
 // ============================================
@@ -98,14 +77,32 @@ Table user {
 // ============================================
 
 Ref: permit.permit_type_id > permit_type.permit_type_id
-Ref: permit.issued_by_user_id > user.user_id
+Ref: permit.issued_by_user_id > user_black_box.user_id
+Ref: permit.transaction_id > transaction.transaction_id
 
-// Polymorphic tracking (conceptual, not a direct FK)
-// permit.source_id → citizen_transaction.citizen_transaction_id OR directorate_transaction.directorate_transaction_id
-// permit.source_type = 'citizen_transaction' or 'directorate_transaction'
+// ============================================
+// INDEX RECOMMENDATIONS
+// ============================================
 
-Ref: entity_status.status_id > status.status_id
-Ref: entity_status.previous_status_id > status.status_id
-// @view 399 58 0.903
-// @size 1580 768
+/*
+-- Index for current status ID (last element)
+CREATE INDEX idx_permit_current_status ON permit (((status_history -> -1) ->> 'status_id'));
+
+-- Index for current status name
+CREATE INDEX idx_permit_current_status_name ON permit (((status_history -> -1) ->> 'status_name'));
+
+-- Index for expiry date (for automated expiration checks)
+CREATE INDEX idx_permit_expiry ON permit (expiry_date) WHERE expiry_date IS NOT NULL;
+
+-- GIN index for custom_values (if searching within)
+CREATE INDEX idx_permit_custom_gin ON permit USING GIN (custom_values);
+
+-- GIN index for status_history (if searching past statuses)
+CREATE INDEX idx_permit_status_gin ON permit USING GIN (status_history);
+
+-- Composite index for active permits (for dashboard queries)
+CREATE INDEX idx_permit_active ON permit (permit_type_id, current_status_id) WHERE current_status_id = 2;
+*/
+// @view 348 55 1.226
+// @size 1480 714
 ```

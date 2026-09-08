@@ -4,7 +4,7 @@
 
 ```dbml
 // ============================================
-// قسم المعاملات (Transactions Section)
+// TRANSACTIONS SECTION (MERGED - SINGLE TABLE)
 // ============================================
 
 // ============================================
@@ -17,7 +17,6 @@ Table transaction_type {
   display_name varchar(100)
   description text
   is_active boolean
-  directorate_id int [note: 'Black Box (FK to external directorate)']
 }
 
 Table channel {
@@ -37,61 +36,46 @@ Table status {
 }
 
 // ============================================
-// ENTITY TABLES (Black Box)
+// BLACK BOX TABLES (External References)
 // ============================================
 
-Table citizen {
+Table citizen_black_box {
   citizen_id int [pk, increment]
-  full_name varchar(255)
-  phone varchar(20)
-  email varchar(100)
-  id_number varchar(50)
-  note: 'Black Box (managed by external system)'
+  note: 'Black Box (managed by external citizen system)'
 }
 
-Table directorate {
+Table directorate_black_box {
   directorate_id int [pk, increment]
-  name varchar(100)
-  phone varchar(20)
-  email varchar(100)
-  note: 'Black Box (managed by external system)'
+  note: 'Black Box (managed by external directorate system)'
+}
+
+Table user_black_box {
+  user_id int [pk, increment]
+  note: 'Black Box (managed by authentication system)'
+}
+
+Table department_black_box {
+  department_id int [pk, increment]
+  note: 'Black Box (managed by organizational system)'
 }
 
 // ============================================
-// TRANSACTION TABLES
+// TRANSACTION TABLE (MERGED)
 // ============================================
 
-Table citizen_transaction {
-  citizen_transaction_id int [pk, increment]
+Table transaction {
+  transaction_id int [pk, increment]
+  source_type varchar(30)
+  source_id int
   transaction_type_id int [ref: > transaction_type.transaction_type_id]
-  citizen_id int [ref: > citizen.citizen_id]
-  citizen_name varchar(255)
-  citizen_phone varchar(20)
-  citizen_email varchar(100)
-  citizen_id_number varchar(50)
+  channel_id int [ref: > channel.channel_id]
   description text
-  location varchar(255)
+  address varchar(255)
   latitude decimal(10,8)
   longitude decimal(11,8)
-  source_directorate_id int [note: 'Black Box (FK to directorate)']
-  channel_id int [ref: > channel.channel_id]
-  assigned_to_department_id int [ref: > department.department_id]
-  assigned_to_user_id int [ref: > user.user_id]
-}
-
-Table directorate_transaction {
-  directorate_transaction_id int [pk, increment]
-  transaction_type_id int [ref: > transaction_type.transaction_type_id]
-  source_directorate_id int [ref: > directorate.directorate_id]
   reference_number varchar(100)
-  description text
-  location varchar(255)
-  latitude decimal(10,8)
-  longitude decimal(11,8)
-  parent_transaction_id int [note: 'Reference to another directorate_transaction (Free ID, no FK)']
-  channel_id int [ref: > channel.channel_id]
-  assigned_to_department_id int [ref: > department.department_id]
-  assigned_to_user_id int [ref: > user.user_id]
+  assigned_to_department_id int [ref: > department_black_box.department_id]
+  assigned_to_user_id int [ref: > user_black_box.user_id]
 }
 
 // ============================================
@@ -100,20 +84,18 @@ Table directorate_transaction {
 
 Table approval_workflow {
   workflow_step_id int [pk, increment]
-  entity_type varchar(50)
-  entity_type_id int
+  transaction_type_id int [ref: > transaction_type.transaction_type_id]
   step_order int
   step_name varchar(100)
-  approving_directorate_id int [note: 'Black Box (FK to directorate)']
-  approving_department_id int [ref: > department.department_id]
+  approving_directorate_id int [ref: > directorate_black_box.directorate_id]
+  approving_department_id int [ref: > department_black_box.department_id]
 }
 
 Table approval_history {
   approval_history_id int [pk, increment]
-  entity_type varchar(50)
-  entity_id int
+  transaction_id int [ref: > transaction.transaction_id]
   workflow_step_id int [ref: > approval_workflow.workflow_step_id]
-  approver_user_id int [ref: > user.user_id]
+  approver_user_id int [ref: > user_black_box.user_id]
   comment text
 }
 
@@ -131,48 +113,39 @@ Table entity_status {
 }
 
 // ============================================
-// REFERENCED TABLES (Black Box - For Context)
+// RELATIONSHIPS (Foreign Keys)
 // ============================================
 
-Table user {
-  user_id int [pk, increment]
-  username varchar(50)
-}
+Ref: transaction.transaction_type_id > transaction_type.transaction_type_id
+Ref: transaction.channel_id > channel.channel_id
+Ref: transaction.assigned_to_department_id > department_black_box.department_id
+Ref: transaction.assigned_to_user_id > user_black_box.user_id'
+Ref: transaction.transaction_id > entity_status.entity_id
 
-Table department {
-  department_id int [pk, increment]
-  name varchar(100)
-}
+Ref: approval_workflow.transaction_type_id > transaction_type.transaction_type_id
+Ref: approval_workflow.approving_directorate_id > directorate_black_box.directorate_id
+Ref: approval_workflow.approving_department_id > department_black_box.department_id
 
-// ============================================
-// RELATIONSHIPS
-// ============================================
-
-// Citizen → Citizen Transaction
-Ref: citizen_transaction.citizen_id > citizen.citizen_id
-
-// Directorate → Directorate Transaction
-Ref: directorate_transaction.source_directorate_id > directorate.directorate_id
-
-// Citizen Transaction Relationships
-Ref: citizen_transaction.transaction_type_id > transaction_type.transaction_type_id
-Ref: citizen_transaction.channel_id > channel.channel_id
-Ref: citizen_transaction.assigned_to_department_id > department.department_id
-Ref: citizen_transaction.assigned_to_user_id > user.user_id
-
-// Directorate Transaction Relationships
-Ref: directorate_transaction.transaction_type_id > transaction_type.transaction_type_id
-Ref: directorate_transaction.channel_id > channel.channel_id
-Ref: directorate_transaction.assigned_to_department_id > department.department_id
-Ref: directorate_transaction.assigned_to_user_id > user.user_id
-
-// Approval System
+Ref: approval_history.transaction_id > transaction.transaction_id
 Ref: approval_history.workflow_step_id > approval_workflow.workflow_step_id
-Ref: approval_history.approver_user_id > user.user_id
+Ref: approval_history.approver_user_id > user_black_box.user_id
 
-// Entity Status
 Ref: entity_status.status_id > status.status_id
 Ref: entity_status.previous_status_id > status.status_id
-// @view 52 97 0.761
-// @size 1569 745
+
+Ref: citizen_black_box.citizen_id > transaction.source_id
+Ref: directorate_black_box.directorate_id > transaction.source_id
+// @pos transaction_type -237 857
+// @pos channel 1221 737
+// @pos status 1210 46
+// @pos citizen_black_box 12 14
+// @pos directorate_black_box 10 98
+// @pos user_black_box 627 790
+// @pos department_black_box 1038 640
+// @pos transaction 495 134
+// @pos approval_workflow -295 344
+// @pos approval_history -276 620
+// @pos entity_status 1142 300
+// @view 268 46 0.767
+// @size 1570 793
 ```

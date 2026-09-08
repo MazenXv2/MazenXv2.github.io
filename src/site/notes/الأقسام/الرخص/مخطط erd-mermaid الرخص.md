@@ -5,7 +5,7 @@
 ```mermaid
 erDiagram
     %% ============================================
-    %% PERMIT SECTION
+    %% PERMIT SECTION (Hybrid Design)
     %% ============================================
 
     %% ============================================
@@ -17,45 +17,26 @@ erDiagram
         varchar display_name
         text description
         boolean is_active
-    }
-
-    status {
-        int status_id PK
-        varchar name
-        varchar display_name
-        text description
-        varchar color_code
+        jsonb fields_schema   "Defines dynamic fields: [{'key':'depth','label':'Depth','type':'decimal'}]"
+        int version           "Tracks schema changes"
     }
 
     %% ============================================
     %% TRANSACTION TABLES (Source)
     %% ============================================
-    citizen_transaction {
-        int citizen_transaction_id PK
+    transaction {
+        int transaction_id PK
         int transaction_type_id
-        int citizen_id
-        varchar citizen_name
-        text description
-        varchar location
-    }
-
-    directorate_transaction {
-        int directorate_transaction_id PK
-        int transaction_type_id
-        int source_directorate_id
-        varchar reference_number
-        text description
-        varchar location
     }
 
     %% ============================================
-    %% PERMIT TABLES
+    %% PERMIT TABLES (Core)
     %% ============================================
     permit {
         int permit_id PK
-        varchar source_type
-        int source_id
-        int permit_type_id
+        varchar source_type          "'transaction' (polymorphic)"
+        int source_id               "transaction.transaction_id"
+        int permit_type_id          "FK → permit_type"
         varchar permit_number
         date issue_date
         date expiry_date
@@ -65,24 +46,15 @@ erDiagram
         decimal longitude
         text detailed_description
         varchar qr_code
+        jsonb custom_values         "Actual data: {'depth': 5.5, 'area': 200}"
+        jsonb status_history        "Audit trail: [{'status_id':1, 'changed_at':'...', 'comment':'Submitted'}]"
+        int current_status_id       "Optional: denormalized for fast lookup (last status_id)"
     }
 
     %% ============================================
-    %% STATUS TRACKING (Global)
+    %% REFERENCED TABLES (Black Box)
     %% ============================================
-    entity_status {
-        int entity_status_id PK
-        varchar entity_type
-        int entity_id
-        int status_id
-        int previous_status_id
-        text comment
-    }
-
-    %% ============================================
-    %% REFERENCED TABLES (Black Box - For Context)
-    %% ============================================
-    user {
+    user_black_box {
         int user_id PK
         varchar username
     }
@@ -91,12 +63,6 @@ erDiagram
     %% RELATIONSHIPS
     %% ============================================
     permit }o--|| permit_type : "has type"
-    permit }o--|| user : "issued by"
-
-    permit }o--|| citizen_transaction : "originates from (polymorphic)"
-    permit }o--|| directorate_transaction : "originates from (polymorphic)"
-
-    entity_status }o--|| status : "has status"
-    entity_status }o--|| status : "had previous status"
-    entity_status ||--o{ permit : "tracks"
+    permit }o--|| user_black_box : "issued by"
+    permit }o--|| transaction : "originates from"
 ```
